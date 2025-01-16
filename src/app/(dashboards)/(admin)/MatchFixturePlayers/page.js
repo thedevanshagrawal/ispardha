@@ -5,9 +5,9 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 const MatchFixturePlayers = () => {
-    const [match, setMatch] = useState([]); // Holds all match data
-    const [selectedGame, setSelectedGame] = useState(null); // Holds the selected game
-    const [players, setPlayers] = useState([]); // Holds the players for the selected game
+    const [match, setMatch] = useState([]);
+    const [selectedGame, setSelectedGame] = useState(null);
+    const [players, setPlayers] = useState([]);
 
     const { data: session, status } = useSession();
     const router = useRouter();
@@ -24,7 +24,7 @@ const MatchFixturePlayers = () => {
     const fetchMatch = async () => {
         try {
             const response = await axios.get("/api/getMatchFixturePlayers");
-            setMatch(response.data.matchResults); // Assuming the response has matchResults data
+            setMatch(response.data.matchResults);
         } catch (error) {
             console.error("Error fetching players:", error);
         }
@@ -48,7 +48,7 @@ const MatchFixturePlayers = () => {
                             onClick={() => handleGameClick(game)}
                             className="cursor-pointer p-4 bg-gray-100 rounded-lg shadow-md hover:bg-gray-200 transition-all"
                         >
-                            <strong className="text-lg">{game.gameName}</strong>
+                            <strong className="text-lg">{game?.gameName}</strong>
                         </div>
                     ))
                 ) : (
@@ -64,8 +64,8 @@ const MatchFixturePlayers = () => {
                         <ul className="space-y-4 mt-4">
                             {players.map((player, index) => (
                                 <li key={index} className="p-4 bg-gray-50 rounded-lg shadow-sm hover:bg-gray-100 transition-all">
-                                    <p><strong>Name:</strong> {player.fullName}</p>
-                                    <p><strong>House:</strong> {player.house}</p>
+                                    <p><strong>Name:</strong> {player?.fullName}</p>
+                                    <p><strong>House:</strong> {player?.house}</p>
                                     {/* You can add more player details here */}
                                 </li>
                             ))}

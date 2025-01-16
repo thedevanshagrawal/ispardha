@@ -1,23 +1,39 @@
-import path from 'path';
-import fs from 'fs';
-import { parse } from 'csv-parse';
 import { NextResponse } from 'next/server';
+import { parse } from 'csv-parse';
+import { v2 as cloudinary } from 'cloudinary';
+import fs from 'fs';
 import playerModel from '@/models/playerModel';
 
-// Disable the default body parser to allow formData to handle the file upload
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
 export const config = {
     api: {
-        bodyParser: false, // Disable the default body parser to allow formData to handle file
+        bodyParser: false,
     },
+};
+
+// Upload function for Cloudinary
+const uploadToCloudinary = async (fileBuffer) => {
+    return new Promise((resolve, reject) => {
+        cloudinary.uploader.upload_stream({ resource_type: 'auto' }, (error, result) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(result);
+            }
+        }).end(fileBuffer);
+    });
 };
 
 export async function POST(req) {
     try {
-        // Handle the formData
         const formData = await req.formData();
-        const file = formData.get('file'); // Get the file from the formData
+        const file = formData.get('file');
 
-        // Check if a file was uploaded
         if (!file) {
             return NextResponse.json({
                 success: false,
@@ -25,53 +41,48 @@ export async function POST(req) {
             }, { status: 400 });
         }
 
-        // Generate a unique file name to store the file
-        const filePath = path.join(process.cwd(), 'public/uploads', `${Date.now()}_${file.name}`);
+        // Get the file buffer to upload to Cloudinary and parse CSV
+        const buffer = Buffer.from(await file.arrayBuffer());
 
-        const buffer = await file.arrayBuffer();
-        fs.writeFileSync(filePath, Buffer.from(buffer)); // Save the file to disk
+        // Upload file to Cloudinary
+        const cloudinaryResponse = await uploadToCloudinary(buffer);
 
+        // Parse the CSV data
         const players = [];
+        const data = buffer.toString('utf8');
 
-        // Read and parse the CSV file
-        try {
-            const data = fs.readFileSync(filePath, 'utf8');
-
+        const parsePromise = new Promise((resolve, reject) => {
             parse(data, {
-                columns: true, // This assumes the CSV file has column headers
+                columns: true,
                 skip_empty_lines: true,
             })
                 .on('data', async (row) => {
-                    players.push(row); // Collect all rows from the CSV file
-
-                    // Create a new player entry for each row in the database
+                    players.push(row);
                     const { fullName, gender, branch, house, mobile } = row;
                     try {
                         const playerData = { fullName, gender, branch, house, mobile };
-                        const addedPlayer = await playerModel.create(playerData); // Save player data to the database
-                        return NextResponse.json({
-                            success: true,
-                            message: 'Bulk upload successful',
-                            addedPlayer,
-                        }, { status: 200 });
+                        await playerModel.create(playerData); // Save player data to DB
                     } catch (dbError) {
                         console.log('Error saving player to DB:', dbError);
                     }
                 })
+                .on('end', () => {
+                    resolve(); // Resolve the promise once parsing is done
+                })
+                .on('error', (err) => {
+                    reject(err); // Reject the promise if parsing fails
+                });
+        });
 
-            return NextResponse.json({
-                success: true,
-                message: 'Bulk upload successful',
-            }, { status: 200 });
+        // Wait for parsing to finish before sending response
+        await parsePromise;
 
+        return NextResponse.json({
+            success: true,
+            message: 'Bulk upload successful',
+            cloudinaryResponse,
+        }, { status: 200 });
 
-        } catch (error) {
-            console.log('Error reading or parsing file:', error);
-            return NextResponse.json({
-                success: false,
-                message: 'Failed to process file',
-            }, { status: 500 });
-        }
     } catch (error) {
         console.log('Error:', error);
         return NextResponse.json({
