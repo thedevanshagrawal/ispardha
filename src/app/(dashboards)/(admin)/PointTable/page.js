@@ -151,8 +151,8 @@ const PointTable = () => {
                             className="w-full p-2 border rounded"
                         >
                             <option value="">Select</option>
-                            <option value="Dominator">Dominator</option>
-                            <option value="Terminator">Terminator</option>
+                            <option value="Dominators">Dominators</option>
+                            <option value="Terminators">Terminators</option>
                             <option value="Avengers">Avengers</option>
                             <option value="Challengers">Challengers</option>
                         </select>
@@ -209,7 +209,7 @@ const PointTable = () => {
                         <thead>
                             <tr className="bg-blue-500 text-white">
                                 <th className="p-2 border text-center">Game Name</th>
-                                {["Dominator", "Terminator", "Avengers", "Challengers"].map(
+                                {["Dominators", "Terminators", "Avengers", "Challengers"].map(
                                     (house) => (
                                         <th key={house} className="p-2 border text-center">
                                             {house}
@@ -223,7 +223,7 @@ const PointTable = () => {
                             {games.map((game) => (
                                 <tr key={game} className="hover:bg-gray-100">
                                     <td className="p-2 border text-center font-medium">{game}</td>
-                                    {["Dominator", "Terminator", "Avengers", "Challengers"].map(
+                                    {["Dominators", "Terminators", "Avengers", "Challengers"].map(
                                         (house) => (
                                             <td key={house} className="p-2 border text-center">
                                                 {getPointsForHouseAndGame(house, game)}
@@ -243,7 +243,7 @@ const PointTable = () => {
                             {/* Total Points Row */}
                             <tr className="bg-gray-200 font-bold">
                                 <td className="p-2 border text-center">Total Points</td>
-                                {["Dominator", "Terminator", "Avengers", "Challengers"].map(
+                                {["Dominators", "Terminators", "Avengers", "Challengers"].map(
                                     (house) => {
                                         const total = calculateTotalPoints(house);
                                         return (

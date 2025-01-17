@@ -5,7 +5,8 @@ const gameSchema = new mongoose.Schema(
     {
         gameName: {
             type: String,
-            lowercase: true
+            lowercase: true,
+            trim: true
         },
     },
     { timestamps: true }

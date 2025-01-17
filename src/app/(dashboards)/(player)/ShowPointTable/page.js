@@ -73,7 +73,7 @@ const ShowPointTable = () => {
                         <thead>
                             <tr className="bg-blue-500 text-white">
                                 <th className="p-3 border text-center">Game Name</th>
-                                {["Dominator", "Terminator", "Avengers", "Challengers"].map(
+                                {["Dominators", "Terminators", "Avengers", "Challengers"].map(
                                     (house) => (
                                         <th key={house} className="p-3 border text-center">
                                             {house}
@@ -89,7 +89,7 @@ const ShowPointTable = () => {
                                         <td className="p-3 border text-center font-medium">
                                             {game}
                                         </td>
-                                        {["Dominator", "Terminator", "Avengers", "Challengers"].map(
+                                        {["Dominators", "Terminators", "Avengers", "Challengers"].map(
                                             (house) => (
                                                 <td key={house} className="p-3 border text-center">
                                                     {getPointsForHouseAndGame(house, game)}
@@ -111,7 +111,7 @@ const ShowPointTable = () => {
                             {/* Total Points Row */}
                             <tr className="bg-gray-200 font-bold">
                                 <td className="p-3 border text-center">Total Points</td>
-                                {["Dominator", "Terminator", "Avengers", "Challengers"].map(
+                                {["Dominators", "Terminators", "Avengers", "Challengers"].map(
                                     (house) => {
                                         const total = calculateTotalPoints(house);
                                         return (

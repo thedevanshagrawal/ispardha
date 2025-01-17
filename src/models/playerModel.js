@@ -4,33 +4,39 @@ const playerSchema = new mongoose.Schema(
     {
         fullName: {
             type: String,
-            lowercase: true
+            lowercase: true,
+            trim: true
         },
         gender: {
             type: String,
             lowercase: true,
-            enum: ["boy", "girl"]
+            enum: ["boy", "girl"],
+            trim: true
         },
         branch: {
             type: String,
             lowercase: true,
-            lowercase: true
+            lowercase: true,
+            trim: true
         },
         year: {
-            type: Number
+            type: Number,
+            trim: true
         },
         house: {
             type: String,
             lowercase: true,
-            enum: ['dominator', 'terminator', 'challengers', 'avengers']
+            enum: ['dominators', 'terminators', 'challengers', 'avengers'],
+            trim: true
         },
         mobile: {
             type: Number,
-            unique: true
+            trim: true
         },
         game: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Game"
+            ref: "Game",
+            trim: true
         }
     },
     {

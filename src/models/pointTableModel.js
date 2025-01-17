@@ -5,14 +5,18 @@ const pointTableSchema = new mongoose.Schema(
         house: {
             type: String,
             lowercase: true,
-            enum: ["Dominator", "Terminator", "Avengers", "Challengers"],
+            enum: ['dominators', 'terminators', 'challengers', 'avengers'],
+            trim: true
         },
         gameName: {
             type: String,
+            lowercase: true,
+            trim: true
         },
         points: {
             type: Number,
             min: 0,
+            trim: true
         },
     },
     { timestamps: true }

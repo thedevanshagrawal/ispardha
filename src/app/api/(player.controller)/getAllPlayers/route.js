@@ -12,11 +12,14 @@ export async function GET(req, res) {
         const { searchParams } = new URL(req.url);
         const house = searchParams.get('house');
         let filter = {}; // Initialize filter object
+        console.log("searchParams: ", searchParams)
+        console.log("house: ", house)
 
         if (house) {
-            filter.house = house; // If house filter is present, apply the filter
+            filter.house = house;
         }
-        const playerData = await playerModel.find(); // Fetch players with the filter applied
+        console.log("filter: ", filter)
+        const playerData = await playerModel.find(filter);
 
         if (!playerData || playerData.length === 0) {
             return NextResponse.json({

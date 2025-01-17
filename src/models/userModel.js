@@ -6,28 +6,34 @@ const userSchema = new mongoose.Schema(
     {
         fullName: {
             type: String,
-            lowercase: true
+            lowercase: true,
+            trim: true
         },
         username: {
             type: String,
             unique: true,
-            lowercase: true
+            lowercase: true,
+            trim: true
         },
         password: {
-            type: String
+            type: String,
+            trim: true
         },
         role: {
             type: String,
             lowercase: true,
             enum: ['admin', 'captain', 'house-representative'],
+            trim: true
         },
         house: {
             type: String,
             lowercase: true,
-            enum: ['dominator', 'terminator', 'challengers', 'avengers'],
+            trim: true,
+            enum: ['dominators', 'terminators', 'challengers', 'avengers'],
         },
         refreshToken: {
-            type: String
+            type: String,
+            trim: true
         },
     },
     { timestamps: true }

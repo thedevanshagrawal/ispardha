@@ -5,24 +5,32 @@ const winnerRunnerUpSchema = new mongoose.Schema(
         gameName: {
             type: String,
             required: true,
+            lowercase: true,
+            trim: true
         },
         winnerName: {
             type: String,
             required: true,
+            lowercase: true,
+            trim: true
         },
         winnerHouse: {
             type: String,
             lowercase: true,
-            enum: ['dominator', 'terminator', 'challengers', 'avengers'],
+            enum: ['dominators', 'terminators', 'challengers', 'avengers'],
+            trim: true
         },
         runnerUpName: {
             type: String,
             required: true,
+            lowercase: true,
+            trim: true
         },
         runnerUpHouse: {
             type: String,
             lowercase: true,
-            enum: ['dominator', 'terminator', 'challengers', 'avengers'],
+            enum: ['dominators', 'terminators', 'challengers', 'avengers'],
+            trim: true
         },
     },
     { timestamps: true }

@@ -3,10 +3,13 @@ import mongoose from 'mongoose';
 const matchFixtureSchema = new mongoose.Schema(
     {
         matchNumber: {
-            type: String
+            type: String,
+            lowercase: true,
+            trim: true
         },
         date: {
             type: String,
+            trim: true
         },
         // game: {
         //     type: mongoose.Schema.Types.ObjectId,
@@ -14,27 +17,32 @@ const matchFixtureSchema = new mongoose.Schema(
         // },
         gameName: {
             type: String,
-            lowercase: true
+            lowercase: true,
+            trim: true
         },
         teams: [
             {
                 house: {
                     type: String,
                     lowercase: true,
-                    enum: ['dominator', 'terminator', 'challengers', 'avengers'],
+                    enum: ['dominators', 'terminators', 'challengers', 'avengers'],
+                    trim: true
 
                 },
                 players: [
                     {
                         type: mongoose.Schema.Types.ObjectId,
                         ref: 'Player',
+                        trim: true
                     },
                 ],
             },
         ],
         gender: {
             type: String,
+            lowercase: true,
             enum: ['boy', 'girl'],
+            trim: true
         },
     },
     {

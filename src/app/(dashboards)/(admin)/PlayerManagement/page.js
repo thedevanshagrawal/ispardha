@@ -5,7 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-
+import { useDebounce } from 'use-debounce';
 const PlayerManagement = () => {
     const [players, setPlayers] = useState([]);
     const [formData, setFormData] = useState({
@@ -21,20 +21,29 @@ const PlayerManagement = () => {
     const { data: session, status } = useSession();
     const router = useRouter();
 
+    const [debouncedHouseFilter] = useDebounce(houseFilter, 500);
+
     useEffect(() => {
         if (status === "loading") return;
         if (!session) {
             router.push("/");
         } else {
-            fetchPlayers();
+            fetchPlayers(); 
         }
     }, [session, status, router]);
+
+    useEffect(() => {
+      
+        if (debouncedHouseFilter !== undefined) {
+            fetchPlayers();
+        }
+    }, [debouncedHouseFilter]); 
 
     const fetchPlayers = async () => {
         try {
             let url = `/api/getAllPlayers`;
-            if (houseFilter) {
-                url += `?house=${houseFilter}`;
+            if (debouncedHouseFilter) {
+                url += `?house=${debouncedHouseFilter}`;
             }
             const response = await axios.get(url);
             setPlayers(response.data.playerData);
@@ -161,12 +170,15 @@ const PlayerManagement = () => {
                 <div className="flex justify-between items-center mb-6">
                     <select
                         value={houseFilter}
-                        onChange={(e) => setHouseFilter(e.target.value)}
+                        onChange={(e) => {
+                            setHouseFilter(e.target.value);
+                            fetchPlayers(); // Trigger filter immediately after selecting house
+                        }}
                         className="p-2 border border-gray-300 rounded-md bg-gray-50"
                     >
                         <option value="">All Houses</option>
-                        <option value="Dominator">Dominator</option>
-                        <option value="Terminator">Terminator</option>
+                        <option value="Dominators">Dominators</option>
+                        <option value="Terminators">Terminators</option>
                         <option value="Avengers">Avengers</option>
                         <option value="Challengers">Challengers</option>
                     </select>
@@ -223,12 +235,11 @@ const PlayerManagement = () => {
                         <option value="" disabled>
                             Select House
                         </option>
-                        <option value="Dominator">Dominator</option>
-                        <option value="Terminator">Terminator</option>
+                        <option value="Dominators">Dominators</option>
+                        <option value="Terminators">Terminators</option>
                         <option value="Avengers">Avengers</option>
                         <option value="Challengers">Challengers</option>
                     </select>
-                  
                     <input
                         type="text"
                         name="mobile"

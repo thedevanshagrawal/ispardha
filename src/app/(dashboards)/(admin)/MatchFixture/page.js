@@ -128,17 +128,19 @@ const MatchFixture = () => {
                             <label htmlFor="house1" className="text-gray-700 font-medium">
                                 House 1:
                             </label>
-                            <input
-                                type="text"
-                                id="house1"
+                            <select
                                 value={formData.house1}
                                 onChange={(e) =>
                                     setFormData({ ...formData, house1: e.target.value })
                                 }
-                                placeholder="Enter House 1 Name"
                                 className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                required
-                            />
+                            >
+                                <option value="">Select House</option>
+                                <option value="Dominators">Dominators</option>
+                                <option value="Terminators">Terminators</option>
+                                <option value="Avengers">Avengers</option>
+                                <option value="Challengers">Challengers</option>
+                            </select>
                         </div>
                     </div>
 
@@ -147,17 +149,19 @@ const MatchFixture = () => {
                             <label htmlFor="house2" className="text-gray-700 font-medium">
                                 House 2:
                             </label>
-                            <input
-                                type="text"
-                                id="house2"
+                            <select
                                 value={formData.house2}
                                 onChange={(e) =>
                                     setFormData({ ...formData, house2: e.target.value })
                                 }
-                                placeholder="Enter House 2 Name"
                                 className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                required
-                            />
+                            >
+                                <option value="">Select House</option>
+                                <option value="Dominators">Dominators</option>
+                                <option value="Terminators">Terminators</option>
+                                <option value="Avengers">Avengers</option>
+                                <option value="Challengers">Challengers</option>
+                            </select>
                         </div>
 
                         <div className="form-group">

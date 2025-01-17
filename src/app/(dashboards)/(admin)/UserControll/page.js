@@ -181,8 +181,8 @@ const UserControll = () => {
                             className="w-full p-2 border rounded"
                         >
                             <option value="select">Select</option>
-                            <option value="Dominator">Dominator</option>
-                            <option value="Terminator">Terminator</option>
+                            <option value="Dominators">Dominators</option>
+                            <option value="Terminators">Terminators</option>
                             <option value="Avengers">Avengers</option>
                             <option value="Challengers">Challengers</option>
                         </select>

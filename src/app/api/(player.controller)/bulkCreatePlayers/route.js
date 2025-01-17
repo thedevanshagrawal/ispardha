@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
-import { parse } from 'csv-parse';
 import { v2 as cloudinary } from 'cloudinary';
-import fs from 'fs';
+import * as XLSX from 'xlsx';
 import playerModel from '@/models/playerModel';
 
 cloudinary.config({
@@ -16,11 +15,11 @@ export const config = {
     },
 };
 
-// Upload function for Cloudinary
 const uploadToCloudinary = async (fileBuffer) => {
     return new Promise((resolve, reject) => {
         cloudinary.uploader.upload_stream({ resource_type: 'auto' }, (error, result) => {
             if (error) {
+                console.error('Cloudinary upload error:', error);
                 reject(error);
             } else {
                 resolve(result);
@@ -41,50 +40,54 @@ export async function POST(req) {
             }, { status: 400 });
         }
 
-        // Get the file buffer to upload to Cloudinary and parse CSV
         const buffer = Buffer.from(await file.arrayBuffer());
 
-        // Upload file to Cloudinary
         const cloudinaryResponse = await uploadToCloudinary(buffer);
 
-        // Parse the CSV data
+        const workbook = XLSX.read(buffer, { type: 'buffer' });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        const data = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
         const players = [];
-        const data = buffer.toString('utf8');
+        let headers = [];
+        let currentSection = null;
 
-        const parsePromise = new Promise((resolve, reject) => {
-            parse(data, {
-                columns: true,
-                skip_empty_lines: true,
-            })
-                .on('data', async (row) => {
-                    players.push(row);
-                    const { fullName, gender, branch, house, mobile } = row;
-                    try {
-                        const playerData = { fullName, gender, branch, house, mobile };
-                        await playerModel.create(playerData); // Save player data to DB
-                    } catch (dbError) {
-                        console.log('Error saving player to DB:', dbError);
+        data.forEach((row, index) => {
+            if (row.length === 1 && (row[0] === 'BOYS' || row[0] === 'GIRLS')) {
+                currentSection = row[0];
+                headers = []; // Reset headers for new section
+                return;
+            }
+
+            if (row.length > 1) {
+                if (!headers.length) {
+                    headers = row; 
+                } else {
+                    const playerData = {};
+                    headers.forEach((header, idx) => {
+                        playerData[header] = row[idx];
+                    });
+
+                    const { fullName, gender, branch, house, mobile } = playerData;
+                    if (fullName && gender && branch && house) {
+                        players.push({ fullName, gender, branch, house, mobile, section: currentSection });
+
+                        playerModel.create({ fullName, gender, branch, house, mobile, section: currentSection })
                     }
-                })
-                .on('end', () => {
-                    resolve(); // Resolve the promise once parsing is done
-                })
-                .on('error', (err) => {
-                    reject(err); // Reject the promise if parsing fails
-                });
+                }
+            }
         });
-
-        // Wait for parsing to finish before sending response
-        await parsePromise;
 
         return NextResponse.json({
             success: true,
             message: 'Bulk upload successful',
             cloudinaryResponse,
+            players,
         }, { status: 200 });
 
     } catch (error) {
-        console.log('Error:', error);
+        console.error('Server error:', error);
         return NextResponse.json({
             success: false,
             message: 'Server error',

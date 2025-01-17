@@ -30,6 +30,7 @@ export async function POST(req, res) {
         }, { status: 201 })
 
     } catch (error) {
+        console.log("error: ", error.errorResponse)
         return NextResponse.json({
             sucess: false, messgae: `Internal server error ${error}`
         }, { status: 500 })

@@ -157,8 +157,8 @@ const WinnerAndRunnerUpPage = () => {
                             <option value="" disabled>
                                 Select House
                             </option>
-                            <option value="Dominator">Dominator</option>
-                            <option value="Terminator">Terminator</option>
+                            <option value="Dominators">Dominators</option>
+                            <option value="Terminators">Terminators</option>
                             <option value="Avengers">Avengers</option>
                             <option value="Challengers">Challengers</option>
                         </select>
@@ -199,8 +199,8 @@ const WinnerAndRunnerUpPage = () => {
                             <option value="" disabled>
                                 Select House
                             </option>
-                            <option value="Dominator">Dominator</option>
-                            <option value="Terminator">Terminator</option>
+                            <option value="Dominators">Dominators</option>
+                            <option value="Terminators">Terminators</option>
                             <option value="Avengers">Avengers</option>
                             <option value="Challengers">Challengers</option>
                         </select>
