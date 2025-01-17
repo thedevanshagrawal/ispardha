@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema(
             type: String,
             lowercase: true,
             trim: true,
-            enum: ['dominators', 'terminators', 'challengers', 'avengers'],
+            enum: ['dominators', 'terminators', 'challengers', 'avengers', ""],
         },
         refreshToken: {
             type: String,

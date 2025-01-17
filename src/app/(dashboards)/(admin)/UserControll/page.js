@@ -52,7 +52,7 @@ const UserControll = () => {
                 house: "",
             });
             fetchUsers();
-            toast.success("Player Added", {
+            toast.success("User Added", {
                 position: "top-right",
                 autoClose: 3000,
                 theme: "light",
@@ -69,6 +69,11 @@ const UserControll = () => {
                 { username }
             );
             fetchUsers();
+            toast.success("User Deleted", {
+                position: "top-right",
+                autoClose: 3000,
+                theme: "light",
+            });
         } catch (error) {
             console.error("Error deleting user:", error);
         }
