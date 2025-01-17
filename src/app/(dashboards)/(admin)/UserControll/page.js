@@ -43,7 +43,7 @@ const UserControll = () => {
             await axios.post(
                 `/api/register`,
                 formData);
-            fetchUsers();
+
             setFormData({
                 fullName: "",
                 username: "",
@@ -51,6 +51,7 @@ const UserControll = () => {
                 role: "",
                 house: "",
             });
+            fetchUsers();
             toast.success("Player Added", {
                 position: "top-right",
                 autoClose: 3000,
