@@ -8,7 +8,7 @@ export async function POST(req, res) {
         await connectDB();
         const { fullName, username, password, role, house } = await req.json();
 
-        if (!fullName || !username || !password || !role || !house) {
+        if (!fullName || !username || !password || !role) {
             return NextResponse.json({
                 sucess: false, messgae: "All fields are required"
             }, { status: 400 })
