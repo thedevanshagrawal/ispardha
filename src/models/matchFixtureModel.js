@@ -5,20 +5,28 @@ const matchFixtureSchema = new mongoose.Schema(
         matchNumber: {
             type: String,
             lowercase: true,
-            trim: true
+            trim: true,
         },
         date: {
             type: String,
-            trim: true
+            trim: true,
+            set: function (value) {
+                if (value) {
+                    const originalDate = new Date(value);
+                    if (!isNaN(originalDate)) {
+                        return originalDate
+                            .toLocaleDateString('en-GB') // Format as dd-mm-yyyy
+                            .split('/')
+                            .join('-'); // Replace "/" with "-"
+                    }
+                }
+                return value;
+            },
         },
-        // game: {
-        //     type: mongoose.Schema.Types.ObjectId,
-        //     ref: 'Game',
-        // },
         gameName: {
             type: String,
             lowercase: true,
-            trim: true
+            trim: true,
         },
         teams: [
             {
@@ -26,14 +34,13 @@ const matchFixtureSchema = new mongoose.Schema(
                     type: String,
                     lowercase: true,
                     enum: ['dominators', 'terminators', 'challengers', 'avengers'],
-                    trim: true
-
+                    trim: true,
                 },
                 players: [
                     {
                         type: mongoose.Schema.Types.ObjectId,
                         ref: 'Player',
-                        trim: true
+                        trim: true,
                     },
                 ],
             },
@@ -42,24 +49,12 @@ const matchFixtureSchema = new mongoose.Schema(
             type: String,
             lowercase: true,
             enum: ['boy', 'girl'],
-            trim: true
+            trim: true,
         },
     },
     {
         timestamps: true,
     }
 );
-
-matchFixtureSchema.pre('save', function (next) {
-    if (this.date) {
-        const originalDate = new Date(this.date);
-        const formattedDate = originalDate
-            .toLocaleDateString('en-GB') // Format as dd-mm-yyyy
-            .split('/')
-            .join('-'); // Replace "/" with "-"
-        this.date = formattedDate;
-    }
-    next();
-});
 
 export default mongoose.models.MatchFixture || mongoose.model("MatchFixture", matchFixtureSchema);

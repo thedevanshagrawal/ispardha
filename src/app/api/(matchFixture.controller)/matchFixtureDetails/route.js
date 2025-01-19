@@ -12,8 +12,6 @@ export async function POST(req, res) {
 
         const { userDataId } = await req.json();
 
-
-
         // Validate inputId
         if (!userDataId) {
             return NextResponse.json({

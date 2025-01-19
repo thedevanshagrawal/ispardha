@@ -11,9 +11,7 @@ export async function GET(req, res) {
 
         const { searchParams } = new URL(req.url);
         const house = searchParams.get('house');
-        let filter = {}; // Initialize filter object
-        console.log("searchParams: ", searchParams)
-        console.log("house: ", house)
+        let filter = {}; 
 
         if (house) {
             filter.house = house;

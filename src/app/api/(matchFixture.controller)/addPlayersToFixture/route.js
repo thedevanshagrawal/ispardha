@@ -15,7 +15,7 @@ export async function POST(req, res) {
                 sucess: false, messgae: "All field are required"
             }, { status: 400 })
 
-        } ``
+        } 
 
         if (!Array.isArray(players) || players.length === 0) {
             return NextResponse.json({

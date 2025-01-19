@@ -23,13 +23,13 @@ const AddPlayersToMatchFixture = () => {
         } else {
             fetchMatchFixtures();
         }
-    }, [session, status, router]);
+    }, [session, status, router,]);
 
     const fetchMatchFixtures = async () => {
         try {
             const userDataId = session.user.id
             const response = await axios.post(
-                `/api/matchFixtureDetails`,{ userDataId }, {
+                `/api/matchFixtureDetails`, { userDataId }, {
                 headers: {
                     'Authorization': `Bearer ${session.user.id}`,
                     'Content-Type': 'application/json',
@@ -166,9 +166,7 @@ const AddPlayersToMatchFixture = () => {
                                     <p>
                                         <strong>Branch:</strong> {player.branch}
                                     </p>
-                                    <p>
-                                        <strong>Year:</strong> {player.year}
-                                    </p>
+
                                     <p>
                                         <strong>Gender:</strong> {player.gender}
                                     </p>
