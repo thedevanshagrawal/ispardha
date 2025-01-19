@@ -15,9 +15,15 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "i-spardha",
-  description: "i-spardha",
+  title: "i-Spardha - Sports Management Platform",
+  description: "i-Spardha is a comprehensive sports management platform designed to streamline the management of sports events, player data, and point tracking. Developed by Devansh Agrawal",
+  keywords: "sports management, sports events, player management, point tracking, Next.js, MongoDB, user authentication, sports platform",
+  author: "Devansh Agrawal",
+  viewport: "width=device-width, initial-scale=1.0",
+  charset: "UTF-8",
+  robots: "index, follow",
 };
+
 
 export default function RootLayout({ children }) {
   return (
