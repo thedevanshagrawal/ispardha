@@ -19,7 +19,7 @@ const uploadToCloudinary = async (fileBuffer) => {
     return new Promise((resolve, reject) => {
         cloudinary.uploader.upload_stream({ resource_type: 'auto' }, (error, result) => {
             if (error) {
-                console.error('Cloudinary upload error:', error);
+                console.log('Cloudinary upload error:', error);
                 reject(error);
             } else {
                 resolve(result);
@@ -32,7 +32,6 @@ export async function POST(req) {
     try {
         const formData = await req.formData();
         const file = formData.get('file');
-
         if (!file) {
             return NextResponse.json({
                 success: false,
@@ -41,7 +40,6 @@ export async function POST(req) {
         }
 
         const buffer = Buffer.from(await file.arrayBuffer());
-
         const cloudinaryResponse = await uploadToCloudinary(buffer);
 
         const workbook = XLSX.read(buffer, { type: 'buffer' });
@@ -56,13 +54,13 @@ export async function POST(req) {
         data.forEach((row, index) => {
             if (row.length === 1 && (row[0] === 'BOYS' || row[0] === 'GIRLS')) {
                 currentSection = row[0];
-                headers = []; // Reset headers for new section
+                headers = [];
                 return;
             }
 
             if (row.length > 1) {
                 if (!headers.length) {
-                    headers = row; 
+                    headers = row;
                 } else {
                     const playerData = {};
                     headers.forEach((header, idx) => {

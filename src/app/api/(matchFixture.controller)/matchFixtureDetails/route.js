@@ -3,6 +3,8 @@ import matchFixtureModel from "@/models/matchFixtureModel"
 import { NextResponse } from "next/server"
 import userModel from "@/models/userModel";
 import playerModel from "@/models/playerModel";
+import mongoose from "mongoose";
+const ObjectId = mongoose.Types.ObjectId;
 
 export async function POST(req, res) {
     try {
@@ -65,6 +67,14 @@ export async function POST(req, res) {
             return null;
         }).filter(Boolean);
 
+        const matchFixturePlayerData = await Promise.all(matchesWithHouse.map(async (match) => {
+            return await Promise.all(match.players.map(async (playerId) => {
+                const player = await playerModel.findById(playerId).lean(); // Using lean() for lightweight query
+
+                return player;
+            }));
+        }));
+
         if (!matchesWithHouse.length) {
             return NextResponse.json({
                 sucess: false, messgae: "No matches found for the specified house."
@@ -72,7 +82,7 @@ export async function POST(req, res) {
         }
 
         return NextResponse.json({
-            sucess: true, messgae: "Match fixture fetched successfully", matchesWithHouse, houseCompare, result
+            sucess: true, messgae: "Match fixture fetched successfully", matchesWithHouse, houseCompare, result, matchFixturePlayerData
         }, { status: 201 })
     } catch (error) {
         console.log("error: ", error)

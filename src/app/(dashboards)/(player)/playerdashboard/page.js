@@ -2,7 +2,8 @@
 import { useState } from "react";
 import AddPlayersToFixture from "../AddPlayersToFixture/page";
 import ShowPointTable from "../ShowPointTable/page";
-import YourPlayer from "../YourPlayer/page";
+import Players from "../YourPlayer/page";
+import Matches from "../Matches/page";
 
 const PlayerDashboard = () => {
     const [activeTab, setActiveTab] = useState("addPlayer");
@@ -46,11 +47,20 @@ const PlayerDashboard = () => {
                         </li>
                         <li>
                             <button
-                                onClick={() => setActiveTab("YourPlayer")}
-                                className={`block w-full text-left py-2 px-4 rounded-md ${activeTab === "YourPlayer" ? "bg-gray-700" : "hover:bg-gray-700"
+                                onClick={() => setActiveTab("Players")}
+                                className={`block w-full text-left py-2 px-4 rounded-md ${activeTab === "Players" ? "bg-gray-700" : "hover:bg-gray-700"
                                     }`}
                             >
-                                Your Player
+                                Players
+                            </button>
+                        </li>
+                        <li>
+                            <button
+                                onClick={() => setActiveTab("Matches")}
+                                className={`block w-full text-left py-2 px-4 rounded-md ${activeTab === "Matches" ? "bg-gray-700" : "hover:bg-gray-700"
+                                    }`}
+                            >
+                                Matches
                             </button>
                         </li>
 
@@ -70,7 +80,8 @@ const PlayerDashboard = () => {
             <div className="flex-grow bg-gray-100 p-6 overflow-auto sm:ml-50">
                 {activeTab === "addPlayer" && <AddPlayersToFixture />}
                 {activeTab === "showPointTable" && <ShowPointTable />}
-                {activeTab === "YourPlayer" && <YourPlayer />}
+                {activeTab === "Players" && <Players />}
+                {activeTab === "Matches" && <Matches />}
             </div>
         </div>
     );

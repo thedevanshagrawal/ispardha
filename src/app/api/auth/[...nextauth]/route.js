@@ -33,6 +33,7 @@ export const authOptions = NextAuth({
             name: user.fullName,
             username: user.username,
             role: user.role,
+            house: user.house || "",
             accessToken: user.accessToken || "",
           };
         } catch (error) {
@@ -54,6 +55,7 @@ export const authOptions = NextAuth({
         token.fullName = user.name;
         token.username = user.username;
         token.role = user.role;
+        token.house = user.house || "";
         token.accessToken = user.accessToken || '';
       }
       return token;
@@ -64,6 +66,7 @@ export const authOptions = NextAuth({
         session.user.fullName = token.fullName;
         session.user.username = token.username;
         session.user.role = token.role;
+        session.user.house = token?.house || "";
       }
 
       const headers = new Headers();
