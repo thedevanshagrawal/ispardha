@@ -16,34 +16,36 @@ const PlayerManagement = () => {
         gender: "",
     });
     const [houseFilter, setHouseFilter] = useState("");
+    const [genderFilter, setGenderFilter] = useState("");
     const [editingPlayerId, setEditingPlayerId] = useState(null);
     const [file, setFile] = useState(null);
     const { data: session, status } = useSession();
     const router = useRouter();
 
     const [debouncedHouseFilter] = useDebounce(houseFilter, 500);
+    const [debouncedGenderFilter] = useDebounce(genderFilter, 500);
 
     useEffect(() => {
         if (status === "loading") return;
         if (!session) {
             router.push("/");
         } else {
-            fetchPlayers(); 
+            fetchPlayers();
         }
     }, [session, status, router]);
 
     useEffect(() => {
-      
-        if (debouncedHouseFilter !== undefined) {
+
+        if (debouncedHouseFilter !== undefined || debouncedGenderFilter !== undefined) {
             fetchPlayers();
         }
-    }, [debouncedHouseFilter]); 
+    }, [debouncedHouseFilter, debouncedGenderFilter]);
 
     const fetchPlayers = async () => {
         try {
             let url = `/api/getAllPlayers`;
-            if (debouncedHouseFilter) {
-                url += `?house=${debouncedHouseFilter}`;
+            if (debouncedHouseFilter || debouncedGenderFilter) {
+                url += `?house=${debouncedHouseFilter}&gender=${debouncedGenderFilter}`;
             }
             const response = await axios.get(url);
             setPlayers(response.data.playerData);
@@ -167,21 +169,37 @@ const PlayerManagement = () => {
                     Manage Players
                 </h2>
 
-                <div className="flex justify-between items-center mb-6">
-                    <select
-                        value={houseFilter}
-                        onChange={(e) => {
-                            setHouseFilter(e.target.value);
-                            fetchPlayers(); // Trigger filter immediately after selecting house
-                        }}
-                        className="p-2 border border-gray-300 rounded-md bg-gray-50"
-                    >
-                        <option value="">All Houses</option>
-                        <option value="Dominators">Dominators</option>
-                        <option value="Terminators">Terminators</option>
-                        <option value="Avengers">Avengers</option>
-                        <option value="Challengers">Challengers</option>
-                    </select>
+                <div className="flex justify-start items-center gap-5">
+                    <div className="flex justify-between items-center mb-6">
+                        <select
+                            value={houseFilter}
+                            onChange={(e) => {
+                                setHouseFilter(e.target.value);
+                                fetchPlayers(); 
+                            }}
+                            className="p-2 border border-gray-300 rounded-md bg-gray-50"
+                        >
+                            <option value="">All Houses</option>
+                            <option value="Dominators">Dominators</option>
+                            <option value="Terminators">Terminators</option>
+                            <option value="Avengers">Avengers</option>
+                            <option value="Challengers">Challengers</option>
+                        </select>
+                    </div>
+                    <div className="flex justify-between items-center mb-6">
+                        <select
+                            value={genderFilter}
+                            onChange={(e) => {
+                                setGenderFilter(e.target.value);
+                                fetchPlayers(); 
+                            }}
+                            className="p-2 border border-gray-300 rounded-md bg-gray-50"
+                        >
+                            <option value="">Select Gender</option>
+                            <option value="boy">Boy</option>
+                            <option value="girl">Girl</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div className="flex flex-wrap gap-4 mb-6">
@@ -281,6 +299,7 @@ const PlayerManagement = () => {
                             <tr>
                                 <th className="border border-gray-300 p-2">S No.</th>
                                 <th className="border border-gray-300 p-2">Name</th>
+                                <th className="border border-gray-300 p-2">Gender</th>
                                 <th className="border border-gray-300 p-2">Branch</th>
                                 <th className="border border-gray-300 p-2">House</th>
                                 <th className="border border-gray-300 p-2">Mobile No.</th>
@@ -295,6 +314,9 @@ const PlayerManagement = () => {
                                     </td>
                                     <td className="border border-gray-300 p-2">
                                         {player.fullName}
+                                    </td>
+                                    <td className="border border-gray-300 p-2">
+                                        {player.gender}
                                     </td>
                                     <td className="border border-gray-300 p-2">
                                         {player.branch}

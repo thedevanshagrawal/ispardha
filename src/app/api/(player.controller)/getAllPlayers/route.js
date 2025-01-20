@@ -7,16 +7,21 @@ export async function GET(req, res) {
     try {
         await connectDB()
 
-        await connectDB();
-
         const { searchParams } = new URL(req.url);
+
         const house = searchParams.get('house');
-        let filter = {}; 
+        const gender = searchParams.get('gender');
+        let filter = {};
+
 
         if (house) {
             filter.house = house;
         }
-        console.log("filter: ", filter)
+
+        if (gender) {
+            filter.gender = gender;
+        }
+
         const playerData = await playerModel.find(filter);
 
         if (!playerData || playerData.length === 0) {

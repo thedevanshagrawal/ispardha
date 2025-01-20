@@ -33,6 +33,7 @@ const MatchFixtureDetails = () => {
                             <th className="px-6 py-3 text-sm font-medium">House 1</th>
                             <th className="px-6 py-3 text-sm font-medium">House 2</th>
                             <th className="px-6 py-3 text-sm font-medium">Gender</th>
+                            <th className="px-6 py-3 text-sm font-medium">Time</th>
                             <th className="px-6 py-3 text-sm font-medium">Date</th>
                         </tr>
                     </thead>
@@ -44,6 +45,7 @@ const MatchFixtureDetails = () => {
                                 <td className="px-6 py-4 text-sm text-gray-700">{match.teams[0].house}</td>
                                 <td className="px-6 py-4 text-sm text-gray-700">{match.teams[1].house}</td>
                                 <td className="px-6 py-4 text-sm text-gray-700">{match.gender}</td>
+                                <td className="px-6 py-4 text-sm text-gray-700">{match.matchTime}</td>
                                 <td className="px-6 py-4 text-sm text-gray-700">{match.date}</td>
                             </tr>
                         ))}

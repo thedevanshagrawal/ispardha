@@ -7,7 +7,7 @@ export async function POST(req, res) {
     try {
         await connectDB()
 
-        const { matchNumber, gameName, date, house1, house2, gender } = await req.json()
+        const { matchNumber, gameName, date, house1, house2, gender, matchTime } = await req.json()
 
         if ([gameName, house1, house2, gender].some((field) => field?.trim() === "")) {
             return NextResponse.json({
@@ -23,6 +23,7 @@ export async function POST(req, res) {
         const matchFixture = await matchFixtureModel.create({
             matchNumber,
             date,
+            matchTime,
             gameName,
             teams,
             gender

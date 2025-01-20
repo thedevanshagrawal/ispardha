@@ -13,6 +13,7 @@ const MatchFixture = () => {
         gameName: "",
         house1: "",
         house2: "",
+        matchTime: "",
         date: "",
         gender: "",
     });
@@ -52,6 +53,7 @@ const MatchFixture = () => {
                 gameName: "",
                 house1: "",
                 house2: "",
+                matchTime: "",
                 date: "",
                 gender: "",
             });
@@ -183,6 +185,22 @@ const MatchFixture = () => {
                         </div>
 
                         <div className="form-group">
+                            <label htmlFor="matchTime" className="text-gray-700 font-medium">
+                                Time:
+                            </label>
+                            <input
+                                type="time"
+                                id="matchTime"
+                                value={formData.matchTime}
+                                onChange={(e) =>
+                                    setFormData({ ...formData, matchTime: e.target.value })
+                                }
+                                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                required
+                            />
+                        </div>
+
+                        <div className="form-group">
                             <label htmlFor="date" className="text-gray-700 font-medium">
                                 Date:
                             </label>
@@ -197,6 +215,7 @@ const MatchFixture = () => {
                                 required
                             />
                         </div>
+
                     </div>
 
                     <button
@@ -232,6 +251,9 @@ const MatchFixture = () => {
                                     Gender
                                 </th>
                                 <th className="px-4 py-2 text-gray-800 font-medium bg-blue-500 text-white">
+                                    Time
+                                </th>
+                                <th className="px-4 py-2 text-gray-800 font-medium bg-blue-500 text-white">
                                     Date
                                 </th>
                                 <th className="px-4 py-2 text-gray-800 font-medium bg-blue-500 text-white">
@@ -247,6 +269,7 @@ const MatchFixture = () => {
                                     <td className="px-4 py-2">{match.teams[0].house}</td>
                                     <td className="px-4 py-2">{match.teams[1].house}</td>
                                     <td className="px-4 py-2">{match.gender}</td>
+                                    <td className="px-4 py-2">{match?.matchTime}</td>
                                     <td className="px-4 py-2">{match.date}</td>
                                     <td className="px-4 py-2">
                                         <button

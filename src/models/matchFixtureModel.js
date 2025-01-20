@@ -23,6 +23,23 @@ const matchFixtureSchema = new mongoose.Schema(
                 return value;
             },
         },
+        matchTime: {
+            type: String,
+            trim: true,
+            set: function (value) {
+                if (value) {
+                    const originalTime = new Date(`1970-01-01T${value}`);
+                    if (!isNaN(originalTime)) {
+                        return originalTime.toLocaleTimeString('en-US', {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            hour12: true,
+                        });
+                    }
+                }
+                return value;
+            },
+        },
         gameName: {
             type: String,
             lowercase: true,

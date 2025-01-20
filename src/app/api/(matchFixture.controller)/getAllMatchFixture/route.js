@@ -6,7 +6,10 @@ import { NextResponse } from "next/server"
 export async function GET(req, res) {
     try {
         await connectDB()
-        const matchFixtureDetails = await matchFixtureModel.find()
+        const matchFixtureDetails = await matchFixtureModel.find().sort({
+            date: 1,
+            matchTime: 1
+        })
 
         if (!matchFixtureDetails) {
             return NextResponse.json({
