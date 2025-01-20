@@ -175,7 +175,7 @@ const PlayerManagement = () => {
                             value={houseFilter}
                             onChange={(e) => {
                                 setHouseFilter(e.target.value);
-                                fetchPlayers(); 
+                                fetchPlayers();
                             }}
                             className="p-2 border border-gray-300 rounded-md bg-gray-50"
                         >
@@ -191,7 +191,7 @@ const PlayerManagement = () => {
                             value={genderFilter}
                             onChange={(e) => {
                                 setGenderFilter(e.target.value);
-                                fetchPlayers(); 
+                                fetchPlayers();
                             }}
                             className="p-2 border border-gray-300 rounded-md bg-gray-50"
                         >
@@ -212,15 +212,22 @@ const PlayerManagement = () => {
                         className="flex-1 min-w-[180px] p-2 border border-gray-300 rounded-md"
                         required
                     />
-                    <input
-                        type="text"
+
+
+                    <select
                         name="gender"
-                        placeholder="Gender"
                         value={formData.gender}
                         onChange={handleChange}
-                        className="flex-1 min-w-[180px] p-2 border border-gray-300 rounded-md"
+                        className="flex-1 min-w-[180px] p-2 border border-gray-300 rounded-md bg-gray-50"
                         required
-                    />
+                    >
+                        <option value="" disabled>
+                            Select Gender
+                        </option>
+                        <option value="boy">Boy</option>
+                        <option value="girl">Girl</option>
+                    </select>
+
                     <select
                         name="branch"
                         value={formData.branch}
