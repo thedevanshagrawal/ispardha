@@ -235,28 +235,28 @@ const MatchFixture = () => {
                     <table className="w-full mt-6 border-collapse">
                         <thead>
                             <tr>
-                                <th className="px-4 py-2 text-gray-800 font-medium bg-blue-500 text-white">
+                                <th className="px-4 py-2 font-medium bg-blue-500 text-white">
                                     Match Number
                                 </th>
-                                <th className="px-4 py-2 text-gray-800 font-medium bg-blue-500 text-white">
+                                <th className="px-4 py-2 font-medium bg-blue-500 text-white">
                                     Game Name
                                 </th>
-                                <th className="px-4 py-2 text-gray-800 font-medium bg-blue-500 text-white">
+                                <th className="px-4 py-2 font-medium bg-blue-500 text-white">
                                     House 1
                                 </th>
-                                <th className="px-4 py-2 text-gray-800 font-medium bg-blue-500 text-white">
+                                <th className="px-4 py-2 font-medium bg-blue-500 text-white">
                                     House 2
                                 </th>
-                                <th className="px-4 py-2 text-gray-800 font-medium bg-blue-500 text-white">
+                                <th className="px-4 py-2 font-medium bg-blue-500 text-white">
                                     Gender
                                 </th>
-                                <th className="px-4 py-2 text-gray-800 font-medium bg-blue-500 text-white">
+                                <th className="px-4 py-2 font-medium bg-blue-500 text-white">
                                     Time
                                 </th>
-                                <th className="px-4 py-2 text-gray-800 font-medium bg-blue-500 text-white">
+                                <th className="px-4 py-2 font-medium bg-blue-500 text-white">
                                     Date
                                 </th>
-                                <th className="px-4 py-2 text-gray-800 font-medium bg-blue-500 text-white">
+                                <th className="px-4 py-2 font-medium bg-blue-500 text-white">
                                     Action
                                 </th>
                             </tr>
