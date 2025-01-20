@@ -4,7 +4,6 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-
 const Matches = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -17,23 +16,28 @@ const Matches = () => {
     if (!session) {
       router.push("/");
     } else {
-      fetchMatchFixture()
+      fetchMatchFixture();
     }
   }, [session, status, router]);
-  const loggedInUserData = session?.user
 
+  const loggedInUserData = session?.user;
 
   const fetchMatchFixture = async () => {
-    const response = await axios.get("/api/getMatchFixturePlayers")
-    setMatch(response.data.matchResults);
-  }
-
+    try {
+      const response = await axios.get("/api/getMatchFixturePlayers");
+      const filteredGames = response.data.matchResults.filter((game) =>
+        game.players.some((player) => player.house === loggedInUserData.house)
+      );
+      setMatch(filteredGames); // Set only the games involving the logged-in user's house
+    } catch (error) {
+      console.error("Error fetching match fixtures:", error);
+    }
+  };
 
   const handleGameClick = (game) => {
     setSelectedGame(game.gameName); // Set selected game name
     setPlayers(game.players); // Set players of the selected game
   };
-
 
   return (
     <div className="p-4">
@@ -52,7 +56,7 @@ const Matches = () => {
             </div>
           ))
         ) : (
-          <p>No games available.</p>
+          <p>No games available for your house.</p>
         )}
       </div>
 
@@ -62,13 +66,16 @@ const Matches = () => {
           <h2 className="text-xl font-semibold">Players for {selectedGame}</h2>
           {players.length > 0 ? (
             <ul className="space-y-4 mt-4">
-              {players.map((player, index) => (
+              {players.map((player, index) =>
                 player.house === loggedInUserData.house ? (
-                  <p key={index} className="p-4 bg-gray-50 rounded-lg shadow-sm hover:bg-gray-100 transition-all"><strong>Name:</strong> {player?.fullName}</p>
-
-                ) : (<div key={index} className="hidden"></div>)
-
-              ))}
+                  <p
+                    key={index}
+                    className="p-4 bg-gray-50 rounded-lg shadow-sm hover:bg-gray-100 transition-all"
+                  >
+                    <strong>Name:</strong> {player?.fullName}
+                  </p>
+                ) : null
+              )}
             </ul>
           ) : (
             <p>No players available for this game.</p>
@@ -76,7 +83,7 @@ const Matches = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Matches
+export default Matches;
