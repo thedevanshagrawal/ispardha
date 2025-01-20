@@ -1,4 +1,4 @@
-'use client'
+"use client"
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
@@ -31,47 +31,95 @@ const MatchFixturePlayers = () => {
     };
 
     const handleGameClick = (game) => {
-        setSelectedGame(game.gameName); // Set selected game name
-        setPlayers(game.players); // Set players of the selected game
+        setSelectedGame(game.gameName);
+        setPlayers(game.players);
+    };
+
+    // Filter unique house names from the fetched players
+    const getUniqueHouses = (players) => {
+        const houses = players.map(player => player.house);
+        return [...new Set(houses)]; // Return unique house names
     };
 
     return (
-        <div className="p-4">
-            <h1 className="text-2xl font-semibold mb-4">Match Fixture Players</h1>
+        <div className="p-6 max-w-7xl mx-auto">
+            <h1 className="text-3xl font-semibold mb-6 text-center text-gray-800">Match Fixture Players</h1>
 
             {/* Display list of games */}
-            <div className="space-y-4">
+            <div className="space-y-6">
                 {match.length > 0 ? (
-                    match.map((game, index) => (
-                        <div
-                            key={index}
-                            onClick={() => handleGameClick(game)}
-                            className="cursor-pointer p-4 bg-gray-100 rounded-lg shadow-md hover:bg-gray-200 transition-all"
-                        >
-                            <strong className="text-lg">{game?.gameName}</strong>
-                        </div>
-                    ))
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-[50%] gap-6">
+                        {match.map((game, index) => (
+                            <div
+                                key={index}
+                                onClick={() => handleGameClick(game)}
+                                className="cursor-pointer py-4 bg-blue-100 rounded-lg shadow-lg hover:bg-blue-200 transition-all ease-in-out transform hover:scale-105"
+                            >
+                                <h3 className="text-lg font-medium text-center text-gray-700">{game?.gameName}</h3>
+                            </div>
+                        ))}
+                    </div>
                 ) : (
-                    <p>No games available.</p>
+                    <p className="text-center text-gray-500">No games available.</p>
                 )}
             </div>
 
-            {/* Show players of the selected game */}
+            {/* Show players of the selected game in "VS" format */}
             {selectedGame && (
                 <div className="mt-8">
-                    <h2 className="text-xl font-semibold">Players for {selectedGame}</h2>
+                    <h2 className="text-2xl font-semibold text-center mb-4 text-gray-800">Players for {selectedGame}</h2>
                     {players.length > 0 ? (
-                        <ul className="space-y-4 mt-4">
-                            {players.map((player, index) => (
-                                <li key={index} className="p-4 bg-gray-50 rounded-lg shadow-sm hover:bg-gray-100 transition-all">
-                                    <p><strong>Name:</strong> {player?.fullName}</p>
-                                    <p><strong>House:</strong> {player?.house}</p>
-                                    {/* You can add more player details here */}
-                                </li>
+                        <div className="flex flex-col lg:flex-row justify-between gap-8">
+                            {/* Loop through the two houses */}
+                            {getUniqueHouses(players).slice(0, 2).map((house, houseIndex) => (
+                                <div
+                                    key={houseIndex}
+                                    className="p-6 bg-white rounded-lg shadow-lg border border-gray-200 hover:shadow-xl transition-all ease-in-out transform hover:scale-105 w-full lg:w-1/2"
+                                >
+                                    <h3 className="text-xl mb-2 font-semibold text-center text-blue-500 capitalize">{house}</h3>
+                                    <table className="w-full border-collapse border border-gray-200 text-sm">
+                                        <thead className="bg-gray-50">
+                                            <tr>
+                                                <th className="border border-gray-300 p-2">S No.</th>
+                                                <th className="border border-gray-300 p-2">Name</th>
+                                                <th className="border border-gray-300 p-2">Gender</th>
+                                                <th className="border border-gray-300 p-2">Branch</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {players.filter(player => player.house === house).map((player, index) => (
+                                                <tr key={player._id}>
+                                                    <td className="border border-gray-300 p-2 text-center">
+                                                        {index + 1}
+                                                    </td>
+                                                    <td className="border border-gray-300 p-2">
+                                                        {player.fullName}
+                                                    </td>
+                                                    <td className="border border-gray-300 p-2">
+                                                        {player.gender}
+                                                    </td>
+                                                    <td className="border border-gray-300 p-2">
+                                                        {player.branch}
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                            {players.length === 0 && (
+                                                <tr>
+                                                    <td
+                                                        colSpan="7"
+                                                        className="border border-gray-300 p-2 text-center"
+                                                    >
+                                                        No players found.
+                                                    </td>
+                                                </tr>
+                                            )}
+                                        </tbody>
+                                    </table>
+                                </div>
                             ))}
-                        </ul>
+                        </div>
                     ) : (
-                        <p>No players available for this game.</p>
+                        <p className="text-center text-gray-500">No players available for this game.</p>
                     )}
                 </div>
             )}
