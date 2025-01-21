@@ -334,12 +334,12 @@ const PlayerManagement = () => {
                                     </td>
                                     <td className="border border-gray-300 p-2 text-center">
                                         <div className="flex">
-                                            <button
+                                            {/* <button
                                                 onClick={() => handleEdit(player)}
                                                 className="bg-yellow-500 hover:bg-yellow-400 text-white py-1 px-3 rounded-md"
                                             >
                                                 Edit
-                                            </button>
+                                            </button> */}
                                             <button
                                                 onClick={() => deletePlayer(player._id)}
                                                 className="bg-red-600 hover:bg-red-700 text-white py-1 px-3 rounded-md ml-2"
