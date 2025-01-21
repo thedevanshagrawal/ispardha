@@ -3,6 +3,7 @@ import "./globals.css";
 import SessionWrapper from "@/components/SessionWrapper";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,6 +35,7 @@ export default function RootLayout({ children }) {
           <Navbar />
           <div className="min-h-screen ">
             {children}
+            <SpeedInsights />
           </div>
           <Footer />
         </SessionWrapper>

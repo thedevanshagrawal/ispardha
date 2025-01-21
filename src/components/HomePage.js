@@ -1,5 +1,3 @@
-// src/components/HomePage.jsx
-
 import Link from 'next/link';
 import React from 'react';
 
