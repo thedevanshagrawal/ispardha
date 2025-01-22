@@ -35,8 +35,8 @@ const Matches = () => {
   };
 
   const handleGameClick = (game) => {
-    setSelectedGame(game.gameName); // Set selected game name
-    setPlayers(game.players); // Set players of the selected game
+    setSelectedGame(game.gameName);
+    setPlayers(game.players);
   };
 
   return (
@@ -52,7 +52,8 @@ const Matches = () => {
               onClick={() => handleGameClick(game)}
               className="cursor-pointer p-4 bg-gray-100 rounded-lg shadow-md hover:bg-gray-200 transition-all"
             >
-              <strong className="text-lg">{game?.gameName}</strong>
+
+              <strong className="text-lg font-medium">{game?.gameName}</strong>
             </div>
           ))
         ) : (
@@ -65,18 +66,36 @@ const Matches = () => {
         <div className="mt-8">
           <h2 className="text-xl font-semibold">Players for {selectedGame}</h2>
           {players.length > 0 ? (
-            <ul className="space-y-4 mt-4">
-              {players.map((player, index) =>
-                player.house === loggedInUserData.house ? (
-                  <p
-                    key={index}
-                    className="p-4 bg-gray-50 rounded-lg shadow-sm hover:bg-gray-100 transition-all"
-                  >
-                    <strong>Name:</strong> {player?.fullName}
-                  </p>
-                ) : null
-              )}
-            </ul>
+            <div className="">
+              <table className="space-y-4 mt-4 w-[65%] border-collapse border border-gray-200 text-sm">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="border border-gray-300 p-2">Name</th>
+                    <th className="border border-gray-300 p-2">Gender</th>
+                    <th className="border border-gray-300 p-2">Branch</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {players.map((player) =>
+                    player.house === loggedInUserData.house ? (
+                      <tr key={player._id}>
+                        <td className="border border-gray-300 p-2">
+                          {player.fullName}
+                        </td>
+                        <td className="border border-gray-300 p-2">
+                          {player.gender}
+                        </td>
+                        <td className="border border-gray-300 p-2">
+                          {player.branch}
+                        </td>
+
+                      </tr>
+
+                    ) : null
+                  )}
+                </tbody>
+              </table>
+            </div>
           ) : (
             <p>No players available for this game.</p>
           )}
