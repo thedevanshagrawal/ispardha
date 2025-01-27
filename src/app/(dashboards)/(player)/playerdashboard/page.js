@@ -4,6 +4,7 @@ import AddPlayersToFixture from "../AddPlayersToFixture/page";
 import ShowPointTable from "../ShowPointTable/page";
 import Players from "../YourPlayer/page";
 import Matches from "../Matches/page";
+import ChangePassword from "../ChangePassword/page";
 
 const PlayerDashboard = () => {
     const [activeTab, setActiveTab] = useState("addPlayer");
@@ -63,6 +64,15 @@ const PlayerDashboard = () => {
                                 Matches
                             </button>
                         </li>
+                        <li>
+                            <button
+                                onClick={() => setActiveTab("ChangePassword")}
+                                className={`block w-full text-left py-2 px-4 rounded-md ${activeTab === "ChangePassword" ? "bg-gray-700" : "hover:bg-gray-700"
+                                    }`}
+                            >
+                                Change Password
+                            </button>
+                        </li>
 
                     </ul>
                 </nav>
@@ -82,6 +92,7 @@ const PlayerDashboard = () => {
                 {activeTab === "showPointTable" && <ShowPointTable />}
                 {activeTab === "Players" && <Players />}
                 {activeTab === "Matches" && <Matches />}
+                {activeTab === "ChangePassword" && <ChangePassword />}
             </div>
         </div>
     );

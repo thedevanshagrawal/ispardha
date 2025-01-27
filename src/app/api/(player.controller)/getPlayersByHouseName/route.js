@@ -16,8 +16,7 @@ export async function POST(req, res) {
             }, { status: 400 })
         }
 
-        // const userId = new mongoose.Types.ObjectId(userDataId);
-
+  
         // Fetch user details
         const userDetail = await userModel.findById(userDataId).lean();
         if (!userDetail) {
