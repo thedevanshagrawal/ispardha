@@ -1,7 +1,7 @@
 import ChangePassword from '@/components/ChangePassword'
 import React from 'react'
 
-const UserChangePassword = () => {
+const AdminChangePassword = () => {
     return (
         <>
             <ChangePassword />
@@ -9,4 +9,4 @@ const UserChangePassword = () => {
     )
 }
 
-export default UserChangePassword
+export default AdminChangePassword

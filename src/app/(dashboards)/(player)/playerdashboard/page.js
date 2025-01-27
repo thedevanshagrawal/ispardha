@@ -1,5 +1,7 @@
 'use client'
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import AddPlayersToFixture from "../AddPlayersToFixture/page";
 import ShowPointTable from "../ShowPointTable/page";
 import Players from "../YourPlayer/page";
@@ -9,11 +11,52 @@ import ChangePassword from "../ChangePassword/page";
 const PlayerDashboard = () => {
     const [activeTab, setActiveTab] = useState("addPlayer");
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const sidebarRef = useRef(null);
+
+    const { data: session, status } = useSession();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (status === "loading") return;
+        if (!session || status === "unauthenticated") {
+            router.push("/");
+        }
+    }, [router, session, status]);
+
+    // Close sidebar automatically after 2 seconds when it opens
+    useEffect(() => {
+        if (isSidebarOpen) {
+            const timer = setTimeout(() => {
+                setIsSidebarOpen(false);
+            }, 3000);
+
+            return () => clearTimeout(timer); // Cleanup timeout
+        }
+    }, [isSidebarOpen]);
+
+    // Close sidebar when clicking outside of it
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                sidebarRef.current &&
+                !sidebarRef.current.contains(event.target)
+            ) {
+                setIsSidebarOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
 
     return (
         <div className="flex flex-col sm:flex-row h-screen">
             {/* Sidebar */}
             <div
+            ref={sidebarRef}
                 className={`fixed sm:relative z-50 w-64 bg-gray-800 text-white flex flex-col transition-transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-64"
                     } sm:translate-x-0`}
             >

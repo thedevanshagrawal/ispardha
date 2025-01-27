@@ -1,16 +1,32 @@
-'use client'
+'use client';
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { useState } from "react";
-
+import { useState, useEffect, useRef } from "react";
 
 export default function Navbar() {
-    const { data: session } = useSession()
+    const { data: session } = useSession();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const menuRef = useRef(null);
 
     const toggleMenu = () => {
         setIsMenuOpen((prev) => !prev);
+        if (!isMenuOpen) {
+            // Close the menu automatically after 2 seconds
+            setTimeout(() => setIsMenuOpen(false), 2000);
+        }
     };
+
+    // Close the menu if the user clicks outside it
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
+                setIsMenuOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
 
     return (
         <div className="bg-gradient-to-r from-blue-600 to-indigo-800 text-white shadow-md">
@@ -44,6 +60,7 @@ export default function Navbar() {
 
                 {/* Menu Items */}
                 <div
+                    ref={menuRef}
                     className={`${isMenuOpen ? "block" : "hidden"
                         } absolute top-16 left-0 w-full bg-gradient-to-r from-blue-600 to-indigo-800 md:flex md:static md:w-auto md:gap-8 text-center md:text-left p-4 md:p-0 z-10`}
                 >
@@ -77,6 +94,15 @@ export default function Navbar() {
                                 </li>
                                 <li>
                                     <Link
+                                        aria-label="match-fixture"
+                                        href="/match-fixture-player"
+                                        className="text-white hover:text-blue-200 px-4 py-2 rounded-lg transition-all duration-300"
+                                    >
+                                        Match Fixtures Players
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
                                         aria-label="point-table"
                                         href="/point-table"
                                         className="text-white hover:text-blue-200 px-4 py-2 rounded-lg transition-all duration-300"
@@ -96,8 +122,6 @@ export default function Navbar() {
                             </ul>
 
                         )}
-
-
                     </ul>
                 </div>
             </div>
