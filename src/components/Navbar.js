@@ -11,8 +11,7 @@ export default function Navbar() {
     const toggleMenu = () => {
         setIsMenuOpen((prev) => !prev);
         if (!isMenuOpen) {
-            // Close the menu automatically after 2 seconds
-            setTimeout(() => setIsMenuOpen(false), 4000);
+            setTimeout(() => setIsMenuOpen(false), 3000);
         }
     };
 
