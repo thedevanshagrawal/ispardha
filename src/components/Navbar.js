@@ -12,7 +12,7 @@ export default function Navbar() {
         setIsMenuOpen((prev) => !prev);
         if (!isMenuOpen) {
             // Close the menu automatically after 2 seconds
-            setTimeout(() => setIsMenuOpen(false), 2000);
+            setTimeout(() => setIsMenuOpen(false), 4000);
         }
     };
 
@@ -64,21 +64,23 @@ export default function Navbar() {
                     className={`${isMenuOpen ? "block" : "hidden"
                         } absolute top-16 left-0 w-full bg-gradient-to-r from-blue-600 to-indigo-800 md:flex md:static md:w-auto md:gap-8 text-center md:text-left p-4 md:p-0 z-10`}
                 >
-                    <ul className="flex md:flex-row gap-6 text-lg md:text-base">
+                    <ul className="flex flex-col md:flex-row gap-4 md:gap-6 text-lg md:text-base">
                         {session ? (
-                            <button
-                                onClick={() => signOut()}
-                                className="text-white hover:text-blue-200 px-4 py-1 rounded-lg transition-all duration-300"
-                            >
-                                Logout
-                            </button>
+                            <li>
+                                <button
+                                    onClick={() => signOut()}
+                                    className="text-white hover:text-blue-200 px-4 py-2 rounded-lg transition-all duration-300 w-full text-left md:w-auto"
+                                >
+                                    Logout
+                                </button>
+                            </li>
                         ) : (
-                            <ul className="flex md:flex-row gap-6 text-lg md:text-base">
+                            <>
                                 <li>
                                     <Link
                                         href="/"
                                         aria-label="Home"
-                                        className="text-white hover:text-blue-200 px-4 py-2 rounded-lg transition-all duration-300"
+                                        className="text-white hover:text-blue-200 px-4 py-2 rounded-lg transition-all duration-300 w-full text-left md:w-auto"
                                     >
                                         Home
                                     </Link>
@@ -87,16 +89,16 @@ export default function Navbar() {
                                     <Link
                                         aria-label="match-fixture"
                                         href="/match-fixture"
-                                        className="text-white hover:text-blue-200 px-4 py-2 rounded-lg transition-all duration-300"
+                                        className="text-white hover:text-blue-200 px-4 py-2 rounded-lg transition-all duration-300 w-full text-left md:w-auto"
                                     >
                                         Match Fixtures
                                     </Link>
                                 </li>
                                 <li>
                                     <Link
-                                        aria-label="match-fixture"
+                                        aria-label="match-fixture-player"
                                         href="/match-fixture-player"
-                                        className="text-white hover:text-blue-200 px-4 py-2 rounded-lg transition-all duration-300"
+                                        className="text-white hover:text-blue-200 px-4 py-2 rounded-lg transition-all duration-300 w-full text-left md:w-auto"
                                     >
                                         Match Fixtures Players
                                     </Link>
@@ -105,7 +107,7 @@ export default function Navbar() {
                                     <Link
                                         aria-label="point-table"
                                         href="/point-table"
-                                        className="text-white hover:text-blue-200 px-4 py-2 rounded-lg transition-all duration-300"
+                                        className="text-white hover:text-blue-200 px-4 py-2 rounded-lg transition-all duration-300 w-full text-left md:w-auto"
                                     >
                                         Point Table
                                     </Link>
@@ -114,13 +116,12 @@ export default function Navbar() {
                                     <Link
                                         aria-label="login"
                                         href="/login"
-                                        className="text-white hover:text-blue-200 px-4 py-2 rounded-lg transition-all duration-300"
+                                        className="text-white hover:text-blue-200 px-4 py-2 rounded-lg transition-all duration-300 w-full text-left md:w-auto"
                                     >
                                         Login
                                     </Link>
                                 </li>
-                            </ul>
-
+                            </>
                         )}
                     </ul>
                 </div>
