@@ -90,7 +90,7 @@ const HomePage = () => {
                             <div
                                 key={index}
                                 className={`group relative rounded-3xl p-8 border-2 transform hover:scale-105 transition-all duration-500 hover:shadow-2xl ${isDarkMode
-                                    ? 'bg-gray-800/80 backdrop-blur-sm border-gray-700 hover:border-blue-400/50 hover:bg-gray-800'
+                                    ? 'bg-gray-950 backdrop-blur-sm border-gray-700 hover:border-blue-400/50 hover:bg-gray-800'
                                     : 'bg-white/80 backdrop-blur-sm border-gray-200 hover:border-blue-400/50 hover:bg-white shadow-lg'
                                     }`}
                             >
@@ -160,7 +160,7 @@ const HomePage = () => {
                             <div
                                 key={index}
                                 className={`group relative rounded-3xl p-8 border-2 transform hover:scale-105 transition-all duration-500 hover:shadow-2xl ${isDarkMode
-                                    ? 'bg-gray-800/80 backdrop-blur-sm border-gray-700 hover:border-blue-400/50 hover:bg-gray-800'
+                                    ? 'bg-gray-950 backdrop-blur-sm border-gray-700 hover:border-blue-400/50 hover:bg-gray-800'
                                     : 'bg-gray-50/80 backdrop-blur-sm border-gray-200 hover:border-blue-400/50 hover:bg-white shadow-lg'
                                     }`}
                             >

@@ -54,8 +54,8 @@ const ChangePassword = () => {
     };
 
     const containerStyle = isDarkMode ? 'bg-gray-950 text-white' : 'bg-white text-black';
-    const cardStyle = isDarkMode ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-300';
-    const inputStyle = `w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none transition-all duration-300 ${isDarkMode ? 'bg-gray-800 text-white border-gray-600 placeholder-gray-400' : 'bg-white text-black border-gray-300 placeholder-gray-500'}`;
+    const cardStyle = isDarkMode ? 'bg-gray-950 border-gray-700' : 'bg-white border-gray-300';
+    const inputStyle = `w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none transition-all duration-300 ${isDarkMode ? 'bg-gray-950 text-white border-gray-600 placeholder-gray-400' : 'bg-white text-black border-gray-300 placeholder-gray-500'}`;
 
     return (
         <div className={`min-h-screen flex items-center justify-center p-6 ${containerStyle}`}>

@@ -35,32 +35,32 @@ const YourPlayer = () => {
 
     return (
         <div className={`min-h-screen ${containerStyle} p-6`}>
-            <div className={`rounded-3xl shadow-2xl p-6 w-full max-w-6xl mx-auto border ${isDarkMode ? 'border-gray-700 bg-gray-900' : 'border-gray-300 bg-white'}`}>
+            <div className={`rounded-3xl shadow-2xl p-6 w-full max-w-6xl mx-auto border ${isDarkMode ? 'border-gray-700 bg-gray-950' : 'border-gray-300 bg-white'}`}>
                 <h3 className="text-3xl font-extrabold text-center mb-6 bg-gradient-to-r from-red-600 to-orange-500 text-transparent bg-clip-text">
                     Your House Players
                 </h3>
 
                 <div className="overflow-x-auto">
-                    <table className="w-full text-sm md:text-base border border-gray-600 rounded-xl overflow-hidden">
+                    <table className="w-full text-sm md:text-base border border-gray-600">
                         <thead className="bg-gradient-to-r from-red-600 to-orange-500 text-white">
                             <tr>
-                                <th className="p-3 border">S No.</th>
-                                <th className="p-3 border">Name</th>
-                                <th className="p-3 border">Gender</th>
-                                <th className="p-3 border">Branch</th>
-                                <th className="p-3 border">House</th>
-                                <th className="p-3 border">Mobile No.</th>
+                                <th className="p-3 border border-gray-600">S No.</th>
+                                <th className="p-3 border border-gray-600">Name</th>
+                                <th className="p-3 border border-gray-600">Gender</th>
+                                <th className="p-3 border border-gray-600">Branch</th>
+                                <th className="p-3 border border-gray-600">House</th>
+                                <th className="p-3 border border-gray-600">Mobile No.</th>
                             </tr>
                         </thead>
                         <tbody>
                             {players.map((player, index) => (
                                 <tr key={player._id} className={isDarkMode ? 'bg-gray-950' : 'bg-white'}>
-                                    <td className="p-3 border text-center">{index + 1}</td>
-                                    <td className="p-3 border">{player.fullName}</td>
-                                    <td className="p-3 border">{player.gender}</td>
-                                    <td className="p-3 border">{player.branch}</td>
-                                    <td className="p-3 border">{player.house}</td>
-                                    <td className="p-3 border">{player.mobile}</td>
+                                    <td className="p-3 border border-gray-600 text-center">{index + 1}</td>
+                                    <td className="p-3 border border-gray-600">{player.fullName}</td>
+                                    <td className="p-3 border border-gray-600">{player.gender}</td>
+                                    <td className="p-3 border border-gray-600">{player.branch}</td>
+                                    <td className="p-3 border border-gray-600">{player.house}</td>
+                                    <td className="p-3 border border-gray-600">{player.mobile}</td>
                                 </tr>
                             ))}
                             {players.length === 0 && (

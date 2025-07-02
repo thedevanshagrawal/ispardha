@@ -82,7 +82,7 @@ const WinnerAndRunnerUpPage = () => {
     }
   };
 
-  const inputStyle = `p-2 w-full border rounded-md ${isDarkMode ? 'bg-gray-900 text-white border-gray-600 placeholder-gray-400' : 'bg-white border-gray-300 text-black placeholder-gray-500'}`;
+  const inputStyle = `p-2 w-full border rounded-md ${isDarkMode ? 'bg-gray-950 text-white border-gray-600 placeholder-gray-400' : 'bg-white border-gray-300 text-black placeholder-gray-500'}`;
 
   return (
     <div className={`${isDarkMode ? "bg-gray-950 text-white" : "bg-white text-black"} min-h-screen py-8`}>

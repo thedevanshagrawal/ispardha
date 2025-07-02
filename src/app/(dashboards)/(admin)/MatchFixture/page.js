@@ -58,12 +58,12 @@ const MatchFixture = () => {
         }
     };
 
-    const inputStyle = `w-full p-3 border rounded-lg shadow-sm focus:outline-none transition-all duration-200 ${isDarkMode ? 'bg-gray-900 text-white border-gray-600 placeholder-gray-400' : 'bg-white text-black border-gray-300 placeholder-gray-500'}`;
+    const inputStyle = `w-full p-3 border border-gray-600 rounded-lg shadow-sm focus:outline-none transition-all duration-200 ${isDarkMode ? 'bg-gray-950 text-white border-gray-600 placeholder-gray-400' : 'bg-white text-black border-gray-300 placeholder-gray-500'}`;
 
     return (
         <div className={`${isDarkMode ? 'bg-gray-950 text-white' : 'bg-white text-black'} min-h-screen p-6`}>
             <ToastContainer />
-            <div className={`max-w-5xl mx-auto p-8 rounded-3xl shadow-2xl border ${isDarkMode ? 'border-gray-700 bg-gray-900' : 'border-gray-300 bg-white'}`}>
+            <div className={`max-w-5xl mx-auto p-8 rounded-3xl shadow-2xl border ${isDarkMode ? 'border-gray-700 bg-gray-950' : 'border-gray-300 bg-white'}`}>
                 <h1 className="text-4xl font-extrabold text-center mb-8 bg-gradient-to-r from-red-600 to-orange-500 bg-clip-text text-transparent tracking-wide">
                     Match Fixture Scheduling
                 </h1>
@@ -112,30 +112,30 @@ const MatchFixture = () => {
                     Upcoming Matches
                 </h2>
                 <div className="overflow-x-auto">
-                    <table className="w-full text-sm md:text-base border border-gray-600 rounded-xl overflow-hidden">
+                    <table className="w-full text-sm md:text-base border border-gray-600 ">
                         <thead className="bg-gradient-to-r from-red-600 to-orange-500 text-white">
                             <tr>
-                                <th className="p-3 border">Match No.</th>
-                                <th className="p-3 border">Game</th>
-                                <th className="p-3 border">House 1</th>
-                                <th className="p-3 border">House 2</th>
-                                <th className="p-3 border">Gender</th>
-                                <th className="p-3 border">Time</th>
-                                <th className="p-3 border">Date</th>
-                                <th className="p-3 border">Action</th>
+                                <th className="p-3 border border-gray-600">Match No.</th>
+                                <th className="p-3 border border-gray-600">Game</th>
+                                <th className="p-3 border border-gray-600">House 1</th>
+                                <th className="p-3 border border-gray-600">House 2</th>
+                                <th className="p-3 border border-gray-600">Gender</th>
+                                <th className="p-3 border border-gray-600">Time</th>
+                                <th className="p-3 border border-gray-600">Date</th>
+                                <th className="p-3 border border-gray-600">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {MatchFixture.map((match, index) => (
                                 <tr key={index} className={isDarkMode ? 'bg-gray-950' : 'bg-white'}>
-                                    <td className="p-3 border text-center">{match.matchNumber}</td>
-                                    <td className="p-3 border text-center">{match.gameName}</td>
-                                    <td className="p-3 border text-center">{match.teams[0].house}</td>
-                                    <td className="p-3 border text-center">{match.teams[1].house}</td>
-                                    <td className="p-3 border text-center">{match.gender}</td>
-                                    <td className="p-3 border text-center">{match.matchTime}</td>
-                                    <td className="p-3 border text-center">{match.date}</td>
-                                    <td className="p-3 border text-center">
+                                    <td className="p-3 border border-gray-600 text-center">{match.matchNumber}</td>
+                                    <td className="p-3 border border-gray-600 text-center">{match.gameName}</td>
+                                    <td className="p-3 border border-gray-600 text-center">{match.teams[0].house}</td>
+                                    <td className="p-3 border border-gray-600 text-center">{match.teams[1].house}</td>
+                                    <td className="p-3 border border-gray-600 text-center">{match.gender}</td>
+                                    <td className="p-3 border border-gray-600 text-center">{match.matchTime}</td>
+                                    <td className="p-3 border border-gray-600 text-center">{match.date}</td>
+                                    <td className="p-3 border border-gray-600 text-center">
                                         <button onClick={() => handleDeleteMatchFixture(match.matchNumber)} className="bg-red-600 text-white px-4 py-1 rounded-lg hover:bg-red-700 transition-all duration-200">
                                             Delete
                                         </button>

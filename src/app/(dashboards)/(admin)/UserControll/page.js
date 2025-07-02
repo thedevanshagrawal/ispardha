@@ -77,13 +77,13 @@ const UserControll = () => {
         }
     };
 
-    const inputStyle = `w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none transition-all duration-200 ${isDarkMode ? 'bg-gray-900 text-white border-gray-600 placeholder-gray-400' : 'bg-white text-black border-gray-300 placeholder-gray-500'}`;
+    const inputStyle = `w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none transition-all duration-200 ${isDarkMode ? 'bg-gray-950 text-white border-gray-600 placeholder-gray-400' : 'bg-white text-black border-gray-300 placeholder-gray-500'}`;
     const containerStyle = isDarkMode ? 'bg-gray-950 text-white' : 'bg-white text-black';
 
     return (
         <div className={`min-h-screen ${containerStyle} p-6`}>
             <ToastContainer autoClose={3000} />
-            <div className={`rounded-3xl shadow-2xl p-8 w-full max-w-5xl mx-auto border ${isDarkMode ? 'border-gray-700 bg-gray-900' : 'border-gray-300 bg-white'}`}>
+            <div className={`rounded-3xl shadow-2xl p-8 w-full max-w-5xl mx-auto border ${isDarkMode ? 'border-gray-700 bg-gray-950' : 'border-gray-300 bg-white'}`}>
                 <h1 className="text-4xl font-extrabold text-center mb-8 bg-gradient-to-r from-red-600 to-orange-500 bg-clip-text text-transparent tracking-wide">
                     User Access Control Panel
                 </h1>
@@ -129,24 +129,24 @@ const UserControll = () => {
 
                 {/* Table */}
                 <div className="overflow-x-auto mt-10">
-                    <table className="w-full text-sm md:text-base border border-gray-600 rounded-xl overflow-hidden">
+                    <table className="w-full text-sm md:text-base border border-gray-600 ">
                         <thead className="bg-gradient-to-r from-red-600 to-orange-500 text-white">
                             <tr>
-                                <th className="p-3 border">Full Name</th>
-                                <th className="p-3 border">Username</th>
-                                <th className="p-3 border">Role</th>
-                                <th className="p-3 border">House</th>
-                                <th className="p-3 border">Actions</th>
+                                <th className="p-3 border border-gray-600">Full Name</th>
+                                <th className="p-3 border border-gray-600">Username</th>
+                                <th className="p-3 border border-gray-600">Role</th>
+                                <th className="p-3 border border-gray-600">House</th>
+                                <th className="p-3 border border-gray-600">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {users.map((user, index) => (
                                 <tr key={index} className={isDarkMode ? 'bg-gray-950' : 'bg-white'}>
-                                    <td className="p-3 border text-center">{user.fullName}</td>
-                                    <td className="p-3 border text-center">{user.username}</td>
-                                    <td className="p-3 border text-center">{user.role}</td>
-                                    <td className="p-3 border text-center">{user.house}</td>
-                                    <td className="p-3 border text-center">
+                                    <td className="p-3 border border-gray-600 text-center">{user.fullName}</td>
+                                    <td className="p-3 border border-gray-600 text-center">{user.username}</td>
+                                    <td className="p-3 border border-gray-600 text-center">{user.role}</td>
+                                    <td className="p-3 border border-gray-600 text-center">{user.house}</td>
+                                    <td className="p-3 border border-gray-600 text-center">
                                         <div className="flex justify-center gap-2">
                                             <button onClick={() => handleEditUser(user)} className="bg-yellow-500 text-white px-4 py-1 rounded-lg hover:bg-yellow-400 transition-all duration-200">Edit</button>
                                             <button onClick={() => handleDeleteUser(user.username)} className="bg-red-600 text-white px-4 py-1 rounded-lg hover:bg-red-700 transition-all duration-200">Delete</button>

@@ -43,7 +43,7 @@ const Matches = () => {
   };
 
   const containerStyle = isDarkMode ? 'bg-gray-950 text-white' : 'bg-white text-black';
-  const cardStyle = isDarkMode ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-300';
+  const cardStyle = isDarkMode ? 'bg-gray-950 border-gray-700' : 'bg-white border-gray-300';
 
   return (
     <div className={`min-h-screen p-6 ${containerStyle}`}>
@@ -77,21 +77,21 @@ const Matches = () => {
             </h2>
             {players.length > 0 ? (
               <div className="overflow-x-auto">
-                <table className="w-full border-collapse border border-gray-600 rounded-xl overflow-hidden text-sm md:text-base">
+                <table className="w-full border-collapse border border-gray-600 text-sm md:text-base">
                   <thead className="bg-gradient-to-r from-red-600 to-orange-500 text-white">
                     <tr>
-                      <th className="p-3 border text-center">Name</th>
-                      <th className="p-3 border text-center">Gender</th>
-                      <th className="p-3 border text-center">Branch</th>
+                      <th className="p-3 border border-gray-600 text-center">Name</th>
+                      <th className="p-3 border border-gray-600 text-center">Gender</th>
+                      <th className="p-3 border border-gray-600 text-center">Branch</th>
                     </tr>
                   </thead>
                   <tbody>
                     {players.map((player) =>
                       player.house === loggedInUserData.house ? (
                         <tr key={player._id} className={isDarkMode ? 'bg-gray-950' : 'bg-white'}>
-                          <td className="p-3 border text-center">{player.fullName}</td>
-                          <td className="p-3 border text-center">{player.gender}</td>
-                          <td className="p-3 border text-center">{player.branch}</td>
+                          <td className="p-3 border border-gray-600 text-center">{player.fullName}</td>
+                          <td className="p-3 border border-gray-600 text-center">{player.gender}</td>
+                          <td className="p-3 border border-gray-600 text-center">{player.branch}</td>
                         </tr>
                       ) : null
                     )}

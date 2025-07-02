@@ -96,13 +96,13 @@ const PointTable = () => {
         }
     };
 
-    const inputStyle = `w-full p-3 border rounded-md shadow-sm focus:outline-none transition-all duration-200 ${isDarkMode ? 'bg-gray-900 text-white border-gray-600 placeholder-gray-400' : 'bg-white text-black border-gray-300 placeholder-gray-500'}`;
+    const inputStyle = `w-full p-3 border border-gray-600 rounded-md shadow-sm focus:outline-none transition-all duration-200 ${isDarkMode ? 'bg-gray-950 text-white border-gray-600 placeholder-gray-400' : 'bg-white text-black border-gray-300 placeholder-gray-500'}`;
     const containerStyle = isDarkMode ? 'bg-gray-950 text-white' : 'bg-white text-black';
 
     return (
         <div className={`min-h-screen ${containerStyle} p-6`}>
             <ToastContainer autoClose={3000} />
-            <div className={`max-w-6xl mx-auto p-8 rounded-3xl shadow-2xl border ${isDarkMode ? 'border-gray-700 bg-gray-900' : 'border-gray-300 bg-white'}`}>
+            <div className={`max-w-6xl mx-auto p-8 rounded-3xl shadow-2xl border ${isDarkMode ? 'border-gray-700 bg-gray-950' : 'border-gray-300 bg-white'}`}>
                 <h1 className="text-4xl font-extrabold text-center mb-8 bg-gradient-to-r from-red-600 to-orange-500 bg-clip-text text-transparent">
                     Point Table Management
                 </h1>
@@ -128,36 +128,36 @@ const PointTable = () => {
 
                 {/* Table */}
                 <div className="overflow-x-auto mt-10">
-                    <table className="w-full text-sm md:text-base border border-gray-600 rounded-xl overflow-hidden">
+                    <table className="w-full text-sm md:text-base border border-gray-600">
                         <thead className="bg-gradient-to-r from-red-600 to-orange-500 text-white">
                             <tr>
-                                <th className="p-3 border">Game Name</th>
+                                <th className="p-3 border border-gray-600">Game Name</th>
                                 {["Dominators", "Terminators", "Avengers", "Challengers"].map(house => (
-                                    <th key={house} className="p-3 border text-center">{house}</th>
+                                    <th key={house} className="p-3 border border-gray-600 text-center">{house}</th>
                                 ))}
-                                <th className="p-3 border">Action</th>
+                                <th className="p-3 border border-gray-600">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {games.map((game) => (
                                 <tr key={game} className={isDarkMode ? 'bg-gray-950' : 'bg-white'}>
-                                    <td className="p-3 border text-center font-medium">{game}</td>
+                                    <td className="p-3 border border-gray-600 text-center font-medium">{game}</td>
                                     {["Dominators", "Terminators", "Avengers", "Challengers"].map(house => (
-                                        <td key={house} className="p-3 border text-center">{getPointsForHouseAndGame(house, game)}</td>
+                                        <td key={house} className="p-3 border border-gray-600 text-center">{getPointsForHouseAndGame(house, game)}</td>
                                     ))}
-                                    <td className="p-3 border text-center">
+                                    <td className="p-3 border border-gray-600 text-center">
                                         <button onClick={() => deleteGame(game)} className="bg-red-600 hover:bg-red-700 text-white py-1 px-3 rounded-md">
                                             Delete
                                         </button>
                                     </td>
                                 </tr>
                             ))}
-                            <tr className="bg-gray-200 font-bold">
-                                <td className="p-3 border text-center">Total Points</td>
+                            <tr className="bg-gray-950 font-bold">
+                                <td className="p-3 border border-gray-600 text-center">Total Points</td>
                                 {["Dominators", "Terminators", "Avengers", "Challengers"].map(house => (
-                                    <td key={`total-${house}`} className="p-3 border text-center">{calculateTotalPoints(house)}</td>
+                                    <td key={`total-${house}`} className="p-3 border border-gray-600 text-center">{calculateTotalPoints(house)}</td>
                                 ))}
-                                <td className="p-3 border"></td>
+                                <td className="p-3 border border-gray-600"></td>
                             </tr>
                         </tbody>
                     </table>

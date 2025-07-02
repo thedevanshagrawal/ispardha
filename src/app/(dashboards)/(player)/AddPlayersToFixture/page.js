@@ -63,8 +63,8 @@ const AddPlayersToMatchFixture = () => {
         );
     };
 
-    const inputStyle = `w-full p-3 border rounded-xl shadow-sm focus:outline-none transition-all duration-200 ${isDarkMode ? 'bg-gray-900 text-white border-gray-600 placeholder-gray-400' : 'bg-white text-black border-gray-300 placeholder-gray-500'}`;
-    const cardStyle = isDarkMode ? 'bg-gray-900 border-gray-700 text-white' : 'bg-white border-gray-300 text-black';
+    const inputStyle = `w-full p-3 border rounded-xl shadow-sm focus:outline-none transition-all duration-200 ${isDarkMode ? 'bg-gray-950 text-white border-gray-600 placeholder-gray-400' : 'bg-white text-black border-gray-300 placeholder-gray-500'}`;
+    const cardStyle = isDarkMode ? 'bg-gray-950 border-gray-700 text-white' : 'bg-white border-gray-300 text-black';
 
     return (
         <div className={`min-h-screen p-6 ${isDarkMode ? 'bg-gray-950 text-white' : 'bg-gray-100 text-black'}`}>
@@ -113,7 +113,7 @@ const AddPlayersToMatchFixture = () => {
                             {players.map((player) => (
                                 <div
                                     key={player.fullName}
-                                    className={`p-4 border rounded-xl transition-all duration-200 cursor-pointer ${selectedPlayers.includes(player.fullName) ? 'bg-red-100 border-red-400' : isDarkMode ? 'bg-gray-800' : 'bg-gray-100'}`}
+                                    className={`p-4 border rounded-xl transition-all duration-200 cursor-pointer ${selectedPlayers.includes(player.fullName) ? 'bg-red-100 border-red-400' : isDarkMode ? 'bg-gray-950' : 'bg-gray-100'}`}
                                     onClick={() => togglePlayerSelection(player.fullName)}
                                 >
                                     <p><strong>Name:</strong> {player.fullName}</p>

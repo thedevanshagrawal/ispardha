@@ -46,7 +46,7 @@ const PointTableDetails = () => {
         return pointData ? pointData.points : 0;
     };
 
-    const cardStyle = isDarkMode ? 'bg-gray-900 border-gray-700 text-white' : 'bg-white border-gray-300 text-black';
+    const cardStyle = isDarkMode ? 'bg-gray-950 border-gray-700 text-white' : 'bg-white border-gray-300 text-black';
     const containerStyle = isDarkMode ? 'bg-gray-950 text-white' : 'bg-gray-100 text-black';
 
     return (
@@ -57,12 +57,12 @@ const PointTableDetails = () => {
                 </h1>
 
                 <div className="overflow-x-auto">
-                    <table className="w-full text-sm md:text-base border border-gray-600 rounded-xl overflow-hidden">
+                    <table className="w-full text-sm md:text-base border border-gray-600">
                         <thead className="bg-gradient-to-r from-red-600 to-orange-500 text-white">
                             <tr>
-                                <th className="p-3 border text-center">Game Name</th>
+                                <th className="p-3 border border-gray-600 text-center">Game Name</th>
                                 {['Dominators', 'Terminators', 'Avengers', 'Challengers'].map((house) => (
-                                    <th key={house} className="p-3 border text-center">{house}</th>
+                                    <th key={house} className="p-3 border border-gray-600 text-center">{house}</th>
                                 ))}
                             </tr>
                         </thead>
@@ -70,9 +70,9 @@ const PointTableDetails = () => {
                             {games.length > 0 ? (
                                 games.map((game) => (
                                     <tr key={game} className={isDarkMode ? 'bg-gray-950' : 'bg-white'}>
-                                        <td className="p-3 border text-center font-semibold">{game}</td>
+                                        <td className="p-3 border border-gray-600 text-center font-semibold">{game}</td>
                                         {['Dominators', 'Terminators', 'Avengers', 'Challengers'].map((house) => (
-                                            <td key={house} className="p-3 border text-center">
+                                            <td key={house} className="p-3 border border-gray-600 text-center">
                                                 {getPointsForHouseAndGame(house, game)}
                                             </td>
                                         ))}
@@ -83,10 +83,10 @@ const PointTableDetails = () => {
                                     <td colSpan={5} className="p-4 border text-center text-gray-400">No data available.</td>
                                 </tr>
                             )}
-                            <tr className="bg-gradient-to-r from-red-100 to-orange-100 font-bold text-black">
-                                <td className="p-3 border text-center">Total Points</td>
+                            <tr className="bg-gray-950 font-bold">
+                                <td className="p-3 border border-gray-600 text-center">Total Points</td>
                                 {['Dominators', 'Terminators', 'Avengers', 'Challengers'].map((house) => (
-                                    <td key={`total-${house}`} className="p-3 border text-center">
+                                    <td key={`total-${house}`} className="p-3 border border-gray-600 text-center">
                                         {calculateTotalPoints(house)}
                                     </td>
                                 ))}

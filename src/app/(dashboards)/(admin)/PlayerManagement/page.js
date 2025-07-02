@@ -149,7 +149,7 @@ const PlayerManagement = () => {
         <div className={`${isDarkMode ? 'bg-gray-950 text-white' : 'bg-white text-black'} min-h-screen`}>
             <ToastContainer />
             <main
-                className={`max-w-5xl mx-auto ${isDarkMode ? 'bg-gray-900 border border-gray-700' : 'bg-white border border-gray-300'
+                className={`max-w-5xl mx-auto ${isDarkMode ? 'bg-gray-950 border border-gray-700' : 'bg-white border border-gray-300'
                     } shadow-xl rounded-2xl mt-10 p-8`}
             >
                 <h2 className="text-center text-3xl font-black mb-8 bg-gradient-to-r from-red-600 to-orange-500 bg-clip-text text-transparent">

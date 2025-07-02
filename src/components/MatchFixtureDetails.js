@@ -29,17 +29,17 @@ const MatchFixtureDetails = () => {
                     Match Fixture Details
                 </h2>
 
-                <div className={`overflow-x-auto rounded-xl ${isDarkMode ? 'bg-gray-900' : 'bg-white'} shadow-xl border border-gray-200`}>
+                <div className={`overflow-x-auto rounded-xl ${isDarkMode ? 'bg-gray-950' : 'bg-white'} shadow-xl border border-gray-600`}>
                     <table className="w-full table-auto text-sm">
                         <thead>
                             <tr className="bg-gradient-to-r from-red-600 to-orange-500 text-white text-left">
-                                <th className="px-6 py-3">Match No.</th>
-                                <th className="px-6 py-3">Game</th>
-                                <th className="px-6 py-3">House 1</th>
-                                <th className="px-6 py-3">House 2</th>
-                                <th className="px-6 py-3">Gender</th>
-                                <th className="px-6 py-3">Time</th>
-                                <th className="px-6 py-3">Date</th>
+                                <th className="px-6 py-3 border border-gray-600">Match No.</th>
+                                <th className="px-6 py-3 border border-gray-600">Game</th>
+                                <th className="px-6 py-3 border border-gray-600">House 1</th>
+                                <th className="px-6 py-3 border border-gray-600">House 2</th>
+                                <th className="px-6 py-3 border border-gray-600">Gender</th>
+                                <th className="px-6 py-3 border border-gray-600">Time</th>
+                                <th className="px-6 py-3 border border-gray-600">Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -47,15 +47,15 @@ const MatchFixtureDetails = () => {
                                 matchFixture.map((match, index) => (
                                     <tr
                                         key={index}
-                                        className={`${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-orange-50'} border-b`}
+                                        className={`border-b`}
                                     >
-                                        <td className="px-6 py-4">{match.matchNumber}</td>
-                                        <td className="px-6 py-4">{match.gameName}</td>
-                                        <td className="px-6 py-4">{match.teams?.[0]?.house}</td>
-                                        <td className="px-6 py-4">{match.teams?.[1]?.house}</td>
-                                        <td className="px-6 py-4 capitalize">{match.gender}</td>
-                                        <td className="px-6 py-4">{match.matchTime}</td>
-                                        <td className="px-6 py-4">{match.date}</td>
+                                        <td className="px-6 py-4 border-gray-600 border">{match.matchNumber}</td>
+                                        <td className="px-6 py-4 border-gray-600 border">{match.gameName}</td>
+                                        <td className="px-6 py-4 border-gray-600 border">{match.teams?.[0]?.house}</td>
+                                        <td className="px-6 py-4 border-gray-600 border">{match.teams?.[1]?.house}</td>
+                                        <td className="px-6 py-4 border-gray-600 border capitalize">{match.gender}</td>
+                                        <td className="px-6 py-4 border-gray-600 border">{match.matchTime}</td>
+                                        <td className="px-6 py-4 border-gray-600 border">{match.date}</td>
                                     </tr>
                                 ))
                             ) : (
