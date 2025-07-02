@@ -1,141 +1,164 @@
-'use client'
-import { useEffect, useRef, useState } from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
+import {
+    Menu,
+    LayoutDashboard,
+    LogOut,
+    UserPlus,
+    BarChart3,
+    Users,
+    CalendarDays,
+    KeyRound,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useTheme } from "@/utils/ThemeContext";
 import AddPlayersToFixture from "../AddPlayersToFixture/page";
-import ShowPointTable from "../ShowPointTable/page";
-import Players from "../YourPlayer/page";
 import Matches from "../Matches/page";
-import ChangePassword from "../ChangePassword/page";
+import Players from "../YourPlayer/page";
+import PointTableDetails from "@/components/PointTableDetails";
+import ChangePassword from "@/components/ChangePassword";
 
 const PlayerDashboard = () => {
-    const [activeTab, setActiveTab] = useState("addPlayer");
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-    const sidebarRef = useRef(null);
-
+    const [activeTab, setActiveTab] = useState("add-player");
+    const [mounted, setMounted] = useState(false);
     const { data: session, status } = useSession();
     const router = useRouter();
+    const { isDarkMode } = useTheme();
+
+    useEffect(() => setMounted(true), []);
 
     useEffect(() => {
         if (status === "loading") return;
         if (!session || status === "unauthenticated") {
             router.push("/");
         }
-    }, [router, session, status]);
+    }, [status, session, router]);
 
-    // Close sidebar automatically after 2 seconds when it opens
-    useEffect(() => {
-        if (isSidebarOpen) {
-            const timer = setTimeout(() => {
-                setIsSidebarOpen(false);
-            }, 3000);
+    if (!mounted || status === "loading") {
+        return (
+            <div className={`h-screen w-full flex items-center justify-center ${isDarkMode ? 'bg-gray-950' : 'bg-white'}`}>
+                <div className="w-12 h-12 rounded-full border-4 border-t-transparent border-red-500 animate-spin" />
+            </div>
+        );
+    }
 
-            return () => clearTimeout(timer); // Cleanup timeout
-        }
-    }, [isSidebarOpen]);
+    const handleTabChange = (value) => setActiveTab(value);
 
-    // Close sidebar when clicking outside of it
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (
-                sidebarRef.current &&
-                !sidebarRef.current.contains(event.target)
-            ) {
-                setIsSidebarOpen(false);
-            }
-        };
-
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, []);
-
+    const navButtonStyle = (tab) =>
+        `w-full justify-start text-base cursor-pointer transition-all duration-300 ${activeTab === tab
+            ? isDarkMode ? "bg-white text-gray-900 font-semibold" : "bg-black text-white font-semibold"
+            : isDarkMode ? "text-white hover:bg-white hover:text-gray-900" : "text-black hover:bg-black hover:text-white"}`;
 
     return (
-        <div className="flex flex-col sm:flex-row h-screen">
-            {/* Sidebar */}
-            <div
-            ref={sidebarRef}
-                className={`fixed sm:relative z-50 w-64 bg-gray-800 text-white flex flex-col transition-transform ${isSidebarOpen ? "translate-x-0" : "-translate-x-64"
-                    } sm:translate-x-0`}
-            >
-                <div className="p-6 text-lg font-bold border-b border-gray-700 flex justify-between items-center sm:block">
+        <div className={`min-h-screen flex flex-col ${isDarkMode ? 'bg-gray-950 text-white' : 'bg-white text-black'}`}>
+            {/* Header */}
+            <header className={`sticky top-0 z-50 flex items-center justify-between px-6 py-5 border-b ${isDarkMode ? 'border-gray-700 bg-gray-950' : 'border-gray-300 bg-white'}`}>
+                <div className="flex items-center gap-4">
+                    {/* Mobile Sidebar */}
+                    <Sheet>
+                        <SheetTrigger asChild>
+                            <Button variant="ghost" size="icon" className={`${isDarkMode ? 'text-white' : 'text-black'} md:hidden`}>
+                                <Menu className="h-5 w-5" />
+                            </Button>
+                        </SheetTrigger>
+                        <SheetContent side="left" className={`${isDarkMode ? 'bg-gray-950 text-white' : 'bg-white text-black'} p-0`}>
+                            <div className="h-full flex flex-col">
+                                <div className="p-6 border-b border-gray-700">
+                                    <p className="font-semibold">{session?.user?.name || "User"}</p>
+                                    <p className="text-sm text-gray-400">{session?.user?.email}</p>
+                                </div>
+                                <nav className="flex-1 p-4 space-y-2">
+                                    <Button className={navButtonStyle("add-player")} onClick={() => handleTabChange("add-player")}>
+                                        <UserPlus className="mr-2 h-4 w-4" /> Add Player
+                                    </Button>
 
-                    <button
-                        onClick={() => setIsSidebarOpen(false)}
-                        className="sm:hidden text-gray-400 hover:text-white"
-                    >
-                        ✕
-                    </button>
+                                    <Button className={navButtonStyle("point-table")} onClick={() => handleTabChange("point-table")}>
+                                        <BarChart3 className="mr-2 h-4 w-4" /> Point Table
+                                    </Button>
+
+                                    <Button className={navButtonStyle("Players")} onClick={() => handleTabChange("Players")}>
+                                        <Users className="mr-2 h-4 w-4" /> Players
+                                    </Button>
+
+                                    <Button className={navButtonStyle("Matches")} onClick={() => handleTabChange("Matches")}>
+                                        <CalendarDays className="mr-2 h-4 w-4" /> Matches
+                                    </Button>
+
+                                    <Button className={navButtonStyle("change-password")} onClick={() => handleTabChange("change-password")}>
+                                        <KeyRound className="mr-2 h-4 w-4" /> Change Password
+                                    </Button>
+
+                                </nav>
+                                <div className="p-4 border-t border-gray-700">
+                                    <Button
+                                        variant="outline"
+                                        className={`w-full cursor-pointer justify-start ${isDarkMode ? 'bg-gray-950 text-white' : 'bg-white text-black'} hover:opacity-80`}
+                                        onClick={() => signOut()}
+                                    >
+                                        <LogOut className="mr-2 h-4 w-4" />
+                                        Sign Out
+                                    </Button>
+                                </div>
+                            </div>
+                        </SheetContent>
+                    </Sheet>
+
+                    <h1 className="text-xl font-bold flex items-center gap-2">
+                        <LayoutDashboard className="h-5 w-5" />
+                        Welcome – {session?.user?.name || "User"}
+                    </h1>
                 </div>
-                <nav className="flex-grow">
-                    <ul className="space-y-2 p-4">
-                        <li>
-                            <button
-                                onClick={() => setActiveTab("addPlayer")}
-                                className={`block w-full text-left py-2 px-4 rounded-md ${activeTab === "addPlayer" ? "bg-gray-700" : "hover:bg-gray-700"
-                                    }`}
-                            >
-                                Add Player
-                            </button>
-                        </li>
-                        <li>
-                            <button
-                                onClick={() => setActiveTab("showPointTable")}
-                                className={`block w-full text-left py-2 px-4 rounded-md ${activeTab === "showPointTable" ? "bg-gray-700" : "hover:bg-gray-700"
-                                    }`}
-                            >
-                                Point Table
-                            </button>
-                        </li>
-                        <li>
-                            <button
-                                onClick={() => setActiveTab("Players")}
-                                className={`block w-full text-left py-2 px-4 rounded-md ${activeTab === "Players" ? "bg-gray-700" : "hover:bg-gray-700"
-                                    }`}
-                            >
-                                Players
-                            </button>
-                        </li>
-                        <li>
-                            <button
-                                onClick={() => setActiveTab("Matches")}
-                                className={`block w-full text-left py-2 px-4 rounded-md ${activeTab === "Matches" ? "bg-gray-700" : "hover:bg-gray-700"
-                                    }`}
-                            >
-                                Matches
-                            </button>
-                        </li>
-                        <li>
-                            <button
-                                onClick={() => setActiveTab("ChangePassword")}
-                                className={`block w-full text-left py-2 px-4 rounded-md ${activeTab === "ChangePassword" ? "bg-gray-700" : "hover:bg-gray-700"
-                                    }`}
-                            >
-                                Change Password
-                            </button>
-                        </li>
 
-                    </ul>
-                </nav>
-            </div>
-
-            {/* Mobile Sidebar Toggle */}
-            <button
-                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                className="sm:hidden  mt-16 fixed top-4 left-2 z-50 p-2 bg-gray-800 text-white rounded-md"
-            >
-                ☰
-            </button>
+                {/* Desktop Sign Out */}
+                <div className="hidden md:block">
+                    <Button
+                        variant="outline"
+                        className={`w-full cursor-pointer justify-start ${isDarkMode ? 'bg-gray-950 text-white' : 'bg-white text-black'} hover:opacity-80`}
+                        onClick={() => signOut()}
+                    >
+                        <LogOut className="mr-2 h-4 w-4" />
+                        Sign Out
+                    </Button>
+                </div>
+            </header>
 
             {/* Main Content */}
-            <div className="flex-grow bg-gray-100 p-6 overflow-auto sm:ml-50">
-                {activeTab === "addPlayer" && <AddPlayersToFixture />}
-                {activeTab === "showPointTable" && <ShowPointTable />}
-                {activeTab === "Players" && <Players />}
-                {activeTab === "Matches" && <Matches />}
-                {activeTab === "ChangePassword" && <ChangePassword />}
+            <div className="flex flex-1">
+                {/* Sidebar */}
+                <nav className={`hidden md:flex flex-col w-64 border-r ${isDarkMode ? 'border-gray-700 bg-gray-950' : 'border-gray-300 bg-white'} p-4 space-y-2`}>
+                    <Button className={navButtonStyle("add-player")} onClick={() => handleTabChange("add-player")}>
+                        <UserPlus className="mr-2 h-4 w-4" /> Add Player
+                    </Button>
+
+                    <Button className={navButtonStyle("point-table")} onClick={() => handleTabChange("point-table")}>
+                        <BarChart3 className="mr-2 h-4 w-4" /> Point Table
+                    </Button>
+
+                    <Button className={navButtonStyle("Players")} onClick={() => handleTabChange("Players")}>
+                        <Users className="mr-2 h-4 w-4" /> Players
+                    </Button>
+
+                    <Button className={navButtonStyle("Matches")} onClick={() => handleTabChange("Matches")}>
+                        <CalendarDays className="mr-2 h-4 w-4" /> Matches
+                    </Button>
+
+                    <Button className={navButtonStyle("change-password")} onClick={() => handleTabChange("change-password")}>
+                        <KeyRound className="mr-2 h-4 w-4" /> Change Password
+                    </Button>
+
+                </nav>
+
+                {/* Page Content */}
+                <main className="flex-1 mt-4 mb-8 p-4 md:p-6 overflow-y-auto">
+                    {activeTab === "add-player" && <AddPlayersToFixture />}
+                    {activeTab === "point-table" && <PointTableDetails />}
+                    {activeTab === "Players" && <Players />}
+                    {activeTab === "Matches" && <Matches />}
+                    {activeTab === "change-password" && <ChangePassword />}
+                </main>
             </div>
         </div>
     );

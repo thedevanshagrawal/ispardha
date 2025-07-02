@@ -5,14 +5,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(req, res) {
     try {
-        await connectDB();
         const { fullName, username, password, role, house } = await req.json();
-
-        console.log("fullName: ", fullName)
-        console.log("username: ", username)
-        console.log("password: ", password)
-        console.log("role: ", role)
-        console.log("house: ", house)
 
         if (!fullName || !username || !password || !role) {
             return NextResponse.json({
@@ -20,6 +13,7 @@ export async function POST(req, res) {
             }, { status: 400 })
         }
 
+        await connectDB();
         const existingUser = await userModel.findOne({ username });
         if (existingUser) {
             return NextResponse.json({
@@ -32,7 +26,7 @@ export async function POST(req, res) {
         if (!user) {
             return NextResponse.json({
                 sucess: false, messgae: "User not created"
-            }, { status: 500 })
+            }, { status: 400 })
 
         }
 

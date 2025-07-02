@@ -5,6 +5,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Analytics } from '@vercel/analytics/next';
+import { ThemeProvider } from "@/utils/ThemeContext";
+import ThemeToastProvider from "@/utils/ThemeToastProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,13 +35,16 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <SessionWrapper>
-          <Navbar />
-          <div className="min-h-screen ">
-            {children}
-            <SpeedInsights />
-            <Analytics />
-          </div>
-          <Footer />
+          <ThemeProvider>
+            <Navbar />
+            <div className="min-h-screen ">
+              {children}
+              <SpeedInsights />
+              <Analytics />
+            </div>
+            <Footer />
+            <ThemeToastProvider />
+          </ThemeProvider>
         </SessionWrapper>
       </body>
     </html>

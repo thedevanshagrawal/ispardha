@@ -1,19 +1,20 @@
-'use client'
+'use client';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import { useTheme } from '@/utils/ThemeContext';
+import { toast } from 'react-toastify';
 
 const MatchFixtureDetails = () => {
-    const [MatchFixture, setMatchFixture] = useState([]);
+    const [matchFixture, setMatchFixture] = useState([]);
+    const { isDarkMode } = useTheme();
 
     useEffect(() => {
         fetchMatchFixture();
-    }, [])
+    }, []);
 
     const fetchMatchFixture = async () => {
         try {
-            const response = await axios.get(
-                `/api/getAllMatchFixture`
-            );
+            const response = await axios.get('/api/getAllMatchFixture');
             setMatchFixture(response.data.matchFixtureDetails);
         } catch (error) {
             console.error("Error fetching match fixture:", error);
@@ -22,38 +23,54 @@ const MatchFixtureDetails = () => {
     };
 
     return (
-        <div className="max-w-7xl mx-auto px-4 py-6">
-            <h2 className="text-3xl font-bold text-center text-blue-800 mb-8">Match Fixture Details</h2>
-            <div className="overflow-x-auto bg-white shadow-md rounded-lg">
-                <table className="w-full text-left table-auto">
-                    <thead>
-                        <tr className="bg-blue-600 text-white">
-                            <th className="px-6 py-3 text-sm font-medium">Match Number</th>
-                            <th className="px-6 py-3 text-sm font-medium">Game Name</th>
-                            <th className="px-6 py-3 text-sm font-medium">House 1</th>
-                            <th className="px-6 py-3 text-sm font-medium">House 2</th>
-                            <th className="px-6 py-3 text-sm font-medium">Gender</th>
-                            <th className="px-6 py-3 text-sm font-medium">Time</th>
-                            <th className="px-6 py-3 text-sm font-medium">Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {MatchFixture.map((match, index) => (
-                            <tr key={index} className="hover:bg-blue-50">
-                                <td className="px-6 py-4 text-sm text-gray-700">{match.matchNumber}</td>
-                                <td className="px-6 py-4 text-sm text-gray-700">{match.gameName}</td>
-                                <td className="px-6 py-4 text-sm text-gray-700">{match.teams[0].house}</td>
-                                <td className="px-6 py-4 text-sm text-gray-700">{match.teams[1].house}</td>
-                                <td className="px-6 py-4 text-sm text-gray-700">{match.gender}</td>
-                                <td className="px-6 py-4 text-sm text-gray-700">{match.matchTime}</td>
-                                <td className="px-6 py-4 text-sm text-gray-700">{match.date}</td>
+        <div className={` pt-28 ${isDarkMode ? 'bg-gray-950 text-white' : 'bg-white text-black'} min-h-screen py-10 px-4`}>
+            <div className="max-w-7xl mx-auto">
+                <h2 className="text-4xl font-extrabold text-center mb-8 bg-gradient-to-r from-red-600 to-orange-500 bg-clip-text text-transparent">
+                    Match Fixture Details
+                </h2>
+
+                <div className={`overflow-x-auto rounded-xl ${isDarkMode ? 'bg-gray-900' : 'bg-white'} shadow-xl border border-gray-200`}>
+                    <table className="w-full table-auto text-sm">
+                        <thead>
+                            <tr className="bg-gradient-to-r from-red-600 to-orange-500 text-white text-left">
+                                <th className="px-6 py-3">Match No.</th>
+                                <th className="px-6 py-3">Game</th>
+                                <th className="px-6 py-3">House 1</th>
+                                <th className="px-6 py-3">House 2</th>
+                                <th className="px-6 py-3">Gender</th>
+                                <th className="px-6 py-3">Time</th>
+                                <th className="px-6 py-3">Date</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {matchFixture.length > 0 ? (
+                                matchFixture.map((match, index) => (
+                                    <tr
+                                        key={index}
+                                        className={`${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-orange-50'} border-b`}
+                                    >
+                                        <td className="px-6 py-4">{match.matchNumber}</td>
+                                        <td className="px-6 py-4">{match.gameName}</td>
+                                        <td className="px-6 py-4">{match.teams?.[0]?.house}</td>
+                                        <td className="px-6 py-4">{match.teams?.[1]?.house}</td>
+                                        <td className="px-6 py-4 capitalize">{match.gender}</td>
+                                        <td className="px-6 py-4">{match.matchTime}</td>
+                                        <td className="px-6 py-4">{match.date}</td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="7" className="text-center py-6 text-gray-400">
+                                        No match fixtures found.
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default MatchFixtureDetails
+export default MatchFixtureDetails;

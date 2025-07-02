@@ -1,10 +1,11 @@
-'use client'
+'use client';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useTheme } from '@/utils/ThemeContext';
 
 const MatchFixture = () => {
     const [MatchFixture, setMatchFixture] = useState([]);
@@ -19,265 +20,123 @@ const MatchFixture = () => {
     });
     const { data: session, status } = useSession();
     const router = useRouter();
+    const { isDarkMode } = useTheme();
 
     useEffect(() => {
         if (status === "loading") return;
-        if (!session) {
-            router.push("/");
-        } else {
-            fetchMatchFixture();
-        }
+        if (!session) router.push("/");
+        else fetchMatchFixture();
     }, [session, status, router]);
 
     const fetchMatchFixture = async () => {
         try {
-            const response = await axios.get(
-                `/api/getAllMatchFixture`
-            );
+            const response = await axios.get(`/api/getAllMatchFixture`);
             setMatchFixture(response.data.matchFixtureDetails);
         } catch (error) {
-            console.error("Error fetching match fixture:", error);
             toast.error("Failed to fetch match fixtures. Please try again.");
         }
     };
 
     const handleAddMatchFixture = async () => {
         try {
-            await axios.post(
-                "/api/createMatchFixture",
-                formData
-            );
+            await axios.post("/api/createMatchFixture", formData);
             fetchMatchFixture();
-            setFormData({
-                matchNumber: "",
-                gameName: "",
-                house1: "",
-                house2: "",
-                matchTime: "",
-                date: "",
-                gender: "",
-            });
+            setFormData({ matchNumber: "", gameName: "", house1: "", house2: "", matchTime: "", date: "", gender: "" });
             toast.success("Match fixture added successfully!");
         } catch (error) {
-            console.error("Error adding match fixture:", error);
             toast.error("Failed to add match fixture. Please try again.");
         }
     };
 
     const handleDeleteMatchFixture = async (matchFixtureId) => {
         try {
-            await axios.post(
-                `/api/deleteMatchFixture`,
-                { matchNumber: matchFixtureId }
-            );
+            await axios.post(`/api/deleteMatchFixture`, { matchNumber: matchFixtureId });
             fetchMatchFixture();
             toast.success("Match fixture deleted successfully!");
         } catch (error) {
-            console.error("Error deleting match fixture:", error);
             toast.error("Failed to delete match fixture. Please try again.");
         }
     };
 
+    const inputStyle = `w-full p-3 border rounded-lg shadow-sm focus:outline-none transition-all duration-200 ${isDarkMode ? 'bg-gray-900 text-white border-gray-600 placeholder-gray-400' : 'bg-white text-black border-gray-300 placeholder-gray-500'}`;
+
     return (
-        <div className="font-sans bg-gray-100 p-6">
+        <div className={`${isDarkMode ? 'bg-gray-950 text-white' : 'bg-white text-black'} min-h-screen p-6`}>
             <ToastContainer />
-            <div className="bg-white max-w-4xl mx-auto p-8 rounded-lg shadow-lg">
-                <h1 className="text-2xl font-semibold text-center text-gray-800 mb-6">
-                    Match Fixture
+            <div className={`max-w-5xl mx-auto p-8 rounded-3xl shadow-2xl border ${isDarkMode ? 'border-gray-700 bg-gray-900' : 'border-gray-300 bg-white'}`}>
+                <h1 className="text-4xl font-extrabold text-center mb-8 bg-gradient-to-r from-red-600 to-orange-500 bg-clip-text text-transparent tracking-wide">
+                    Match Fixture Scheduling
                 </h1>
 
-                {/* Admin Form */}
-                <div className="grid gap-6 max-w-2xl mx-auto">
-                    <div className="flex gap-3 max-lg:flex-col">
-                        <div className="form-group">
-                            <label
-                                htmlFor="matchNumber"
-                                className="text-gray-700 font-medium"
-                            >
-                                Match Number:
-                            </label>
-                            <input
-                                type="text"
-                                id="matchNumber"
-                                value={formData.matchNumber}
-                                onChange={(e) =>
-                                    setFormData({ ...formData, matchNumber: e.target.value })
-                                }
-                                placeholder="Enter Match Number"
-                                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                required
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="game" className="text-gray-700 font-medium">
-                                Game Name:
-                            </label>
-                            <input
-                                type="text"
-                                id="game"
-                                value={formData.gameName}
-                                onChange={(e) =>
-                                    setFormData({ ...formData, gameName: e.target.value })
-                                }
-                                placeholder="Enter Game Name"
-                                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                required
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="house1" className="text-gray-700 font-medium">
-                                House 1:
-                            </label>
-                            <select
-                                value={formData.house1}
-                                onChange={(e) =>
-                                    setFormData({ ...formData, house1: e.target.value })
-                                }
-                                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            >
-                                <option value="">Select House</option>
-                                <option value="Dominators">Dominators</option>
-                                <option value="Terminators">Terminators</option>
-                                <option value="Avengers">Avengers</option>
-                                <option value="Challengers">Challengers</option>
-                            </select>
-                        </div>
+                {/* Form */}
+                <div className="grid gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <input type="text" placeholder="Match Number" value={formData.matchNumber} onChange={(e) => setFormData({ ...formData, matchNumber: e.target.value })} className={inputStyle} required />
+                        <input type="text" placeholder="Game Name" value={formData.gameName} onChange={(e) => setFormData({ ...formData, gameName: e.target.value })} className={inputStyle} required />
+                        <select value={formData.gender} onChange={(e) => setFormData({ ...formData, gender: e.target.value })} className={inputStyle}>
+                            <option value="">Select Gender</option>
+                            <option value="boy">Boy</option>
+                            <option value="girl">Girl</option>
+                        </select>
                     </div>
 
-                    <div className="flex gap-3 max-lg:flex-col">
-                        <div className="form-group">
-                            <label htmlFor="house2" className="text-gray-700 font-medium">
-                                House 2:
-                            </label>
-                            <select
-                                value={formData.house2}
-                                onChange={(e) =>
-                                    setFormData({ ...formData, house2: e.target.value })
-                                }
-                                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            >
-                                <option value="">Select House</option>
-                                <option value="Dominators">Dominators</option>
-                                <option value="Terminators">Terminators</option>
-                                <option value="Avengers">Avengers</option>
-                                <option value="Challengers">Challengers</option>
-                            </select>
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="gender" className="text-gray-700 font-medium">
-                                Gender:
-                            </label>
-                            <select
-                                id="gender"
-                                value={formData.gender}
-                                onChange={(e) =>
-                                    setFormData({ ...formData, gender: e.target.value })
-                                }
-                                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            >
-                                <option value="">Select Gender</option>
-                                <option value="boy">Boy</option>
-                                <option value="girl">Girl</option>
-                            </select>
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="matchTime" className="text-gray-700 font-medium">
-                                Time:
-                            </label>
-                            <input
-                                type="time"
-                                id="matchTime"
-                                value={formData.matchTime}
-                                onChange={(e) =>
-                                    setFormData({ ...formData, matchTime: e.target.value })
-                                }
-                                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                required
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="date" className="text-gray-700 font-medium">
-                                Date:
-                            </label>
-                            <input
-                                type="date"
-                                id="date"
-                                value={formData.date}
-                                onChange={(e) =>
-                                    setFormData({ ...formData, date: e.target.value })
-                                }
-                                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                required
-                            />
-                        </div>
-
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <select value={formData.house1} onChange={(e) => setFormData({ ...formData, house1: e.target.value })} className={inputStyle}>
+                            <option value="">Select House 1</option>
+                            <option value="Dominators">Dominators</option>
+                            <option value="Terminators">Terminators</option>
+                            <option value="Avengers">Avengers</option>
+                            <option value="Challengers">Challengers</option>
+                        </select>
+                        <select value={formData.house2} onChange={(e) => setFormData({ ...formData, house2: e.target.value })} className={inputStyle}>
+                            <option value="">Select House 2</option>
+                            <option value="Dominators">Dominators</option>
+                            <option value="Terminators">Terminators</option>
+                            <option value="Avengers">Avengers</option>
+                            <option value="Challengers">Challengers</option>
+                        </select>
                     </div>
 
-                    <button
-                        onClick={handleAddMatchFixture}
-                        type="submit"
-                        className="w-full bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 focus:outline-none"
-                    >
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <input type="time" value={formData.matchTime} onChange={(e) => setFormData({ ...formData, matchTime: e.target.value })} className={inputStyle} required />
+                        <input type="date" value={formData.date} onChange={(e) => setFormData({ ...formData, date: e.target.value })} className={inputStyle} required />
+                    </div>
+
+                    <button onClick={handleAddMatchFixture} className="w-full py-3 bg-gradient-to-r from-red-600 to-orange-500 text-white font-bold rounded-xl hover:from-red-700 hover:to-orange-600 transition-all duration-300">
                         Add Match
                     </button>
                 </div>
 
-                {/* match Fixture Table */}
-                <h2 className="text-xl font-semibold text-gray-800 mt-8 text-center">
+                {/* Table */}
+                <h2 className="text-2xl font-semibold text-center mt-10 mb-4 bg-gradient-to-r from-red-600 to-orange-500 bg-clip-text text-transparent">
                     Upcoming Matches
                 </h2>
                 <div className="overflow-x-auto">
-                    <table className="w-full mt-6 border-collapse">
-                        <thead>
+                    <table className="w-full text-sm md:text-base border border-gray-600 rounded-xl overflow-hidden">
+                        <thead className="bg-gradient-to-r from-red-600 to-orange-500 text-white">
                             <tr>
-                                <th className="px-4 py-2 font-medium bg-blue-500 text-white">
-                                    Match Number
-                                </th>
-                                <th className="px-4 py-2 font-medium bg-blue-500 text-white">
-                                    Game Name
-                                </th>
-                                <th className="px-4 py-2 font-medium bg-blue-500 text-white">
-                                    House 1
-                                </th>
-                                <th className="px-4 py-2 font-medium bg-blue-500 text-white">
-                                    House 2
-                                </th>
-                                <th className="px-4 py-2 font-medium bg-blue-500 text-white">
-                                    Gender
-                                </th>
-                                <th className="px-4 py-2 font-medium bg-blue-500 text-white">
-                                    Time
-                                </th>
-                                <th className="px-4 py-2 font-medium bg-blue-500 text-white">
-                                    Date
-                                </th>
-                                <th className="px-4 py-2 font-medium bg-blue-500 text-white">
-                                    Action
-                                </th>
+                                <th className="p-3 border">Match No.</th>
+                                <th className="p-3 border">Game</th>
+                                <th className="p-3 border">House 1</th>
+                                <th className="p-3 border">House 2</th>
+                                <th className="p-3 border">Gender</th>
+                                <th className="p-3 border">Time</th>
+                                <th className="p-3 border">Date</th>
+                                <th className="p-3 border">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {MatchFixture.map((match, index) => (
-                                <tr key={index} className="hover:bg-gray-100">
-                                    <td className="px-4 py-2">{match.matchNumber}</td>
-                                    <td className="px-4 py-2">{match.gameName}</td>
-                                    <td className="px-4 py-2">{match.teams[0].house}</td>
-                                    <td className="px-4 py-2">{match.teams[1].house}</td>
-                                    <td className="px-4 py-2">{match.gender}</td>
-                                    <td className="px-4 py-2">{match?.matchTime}</td>
-                                    <td className="px-4 py-2">{match.date}</td>
-                                    <td className="px-4 py-2">
-                                        <button
-                                            onClick={() =>
-                                                handleDeleteMatchFixture(match.matchNumber)
-                                            }
-                                            className="bg-red-600 hover:bg-red-700 text-white py-1 px-3 rounded-md ml-2"
-                                        >
+                                <tr key={index} className={isDarkMode ? 'bg-gray-950' : 'bg-white'}>
+                                    <td className="p-3 border text-center">{match.matchNumber}</td>
+                                    <td className="p-3 border text-center">{match.gameName}</td>
+                                    <td className="p-3 border text-center">{match.teams[0].house}</td>
+                                    <td className="p-3 border text-center">{match.teams[1].house}</td>
+                                    <td className="p-3 border text-center">{match.gender}</td>
+                                    <td className="p-3 border text-center">{match.matchTime}</td>
+                                    <td className="p-3 border text-center">{match.date}</td>
+                                    <td className="p-3 border text-center">
+                                        <button onClick={() => handleDeleteMatchFixture(match.matchNumber)} className="bg-red-600 text-white px-4 py-1 rounded-lg hover:bg-red-700 transition-all duration-200">
                                             Delete
                                         </button>
                                     </td>

@@ -6,10 +6,12 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useTheme } from '@/utils/ThemeContext';
 
 const ChangePassword = () => {
     const { data: session, status } = useSession();
     const router = useRouter();
+    const { isDarkMode } = useTheme();
 
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
@@ -17,20 +19,15 @@ const ChangePassword = () => {
 
     useEffect(() => {
         if (status === 'loading') return;
-        if (!session) {
-            router.push('/');
-        }
+        if (!session) router.push('/');
     }, [session, status, router]);
 
     const updatePassword = async (e) => {
         e.preventDefault();
-
-        // Basic validation
         if (!oldPassword || !newPassword || !confirmPassword) {
             toast.error('All fields are required.');
             return;
         }
-
         if (newPassword !== confirmPassword) {
             toast.error('New password and confirm password do not match.');
             return;
@@ -56,56 +53,58 @@ const ChangePassword = () => {
         }
     };
 
+    const containerStyle = isDarkMode ? 'bg-gray-950 text-white' : 'bg-white text-black';
+    const cardStyle = isDarkMode ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-300';
+    const inputStyle = `w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none transition-all duration-300 ${isDarkMode ? 'bg-gray-800 text-white border-gray-600 placeholder-gray-400' : 'bg-white text-black border-gray-300 placeholder-gray-500'}`;
+
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-            <ToastContainer />
+        <div className={`min-h-screen flex items-center justify-center p-6 ${containerStyle}`}>
+            <ToastContainer autoClose={3000} />
             <form
-                className="w-full max-w-md p-6 bg-white rounded shadow-md"
                 onSubmit={updatePassword}
+                className={`w-full max-w-md p-8 rounded-3xl shadow-2xl border ${cardStyle}`}
             >
-                <h2 className="mb-4 text-xl font-semibold text-center">Change Password</h2>
-                <div className="mb-4">
-                    <label htmlFor="oldPassword" className="block mb-1 font-medium">
-                        Old Password
-                    </label>
-                    <input
-                        type="password"
-                        id="oldPassword"
-                        className="w-full px-4 py-2 border rounded"
-                        value={oldPassword}
-                        onChange={(e) => setOldPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="mb-4">
-                    <label htmlFor="newPassword" className="block mb-1 font-medium">
-                        New Password
-                    </label>
-                    <input
-                        type="password"
-                        id="newPassword"
-                        className="w-full px-4 py-2 border rounded"
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="mb-4">
-                    <label htmlFor="confirmPassword" className="block mb-1 font-medium">
-                        Confirm New Password
-                    </label>
-                    <input
-                        type="password"
-                        id="confirmPassword"
-                        className="w-full px-4 py-2 border rounded"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        required
-                    />
+                <h2 className="text-3xl font-bold text-center mb-6 bg-gradient-to-r from-red-600 to-orange-500 text-transparent bg-clip-text">
+                    Change Password
+                </h2>
+                <div className="space-y-4">
+                    <div>
+                        <label htmlFor="oldPassword" className="block mb-1 font-semibold">Old Password</label>
+                        <input
+                            type="password"
+                            id="oldPassword"
+                            className={inputStyle}
+                            value={oldPassword}
+                            onChange={(e) => setOldPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="newPassword" className="block mb-1 font-semibold">New Password</label>
+                        <input
+                            type="password"
+                            id="newPassword"
+                            className={inputStyle}
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="confirmPassword" className="block mb-1 font-semibold">Confirm New Password</label>
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            className={inputStyle}
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            required
+                        />
+                    </div>
                 </div>
                 <button
                     type="submit"
-                    className="w-full px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
+                    className="mt-6 w-full py-3 bg-gradient-to-r from-red-600 to-orange-500 text-white font-bold rounded-xl hover:from-red-700 hover:to-orange-600 transition-all duration-300"
                 >
                     Update Password
                 </button>
