@@ -22,7 +22,7 @@ const AddPlayersToMatchFixture = () => {
         if (status === "loading") return;
         if (!session) router.push("/");
         else fetchMatchFixtures();
-    }, [session, status]);
+    }, [session, status, router]);
 
     const fetchMatchFixtures = async () => {
         try {
@@ -113,7 +113,7 @@ const AddPlayersToMatchFixture = () => {
                             {players.map((player) => (
                                 <div
                                     key={player.fullName}
-                                    className={`p-4 border rounded-xl transition-all duration-200 cursor-pointer ${selectedPlayers.includes(player.fullName) ? 'bg-red-100 border-red-400' : isDarkMode ? 'bg-gray-950' : 'bg-gray-100'}`}
+                                    className={`p-4 border rounded-xl transition-all duration-200 cursor-pointer ${selectedPlayers.includes(player.fullName) ? 'bg-gradient-to-r from-red-600 to-orange-500 border-gray-200' : isDarkMode ? 'bg-gray-950' : 'bg-gray-100'}`}
                                     onClick={() => togglePlayerSelection(player.fullName)}
                                 >
                                     <p><strong>Name:</strong> {player.fullName}</p>
